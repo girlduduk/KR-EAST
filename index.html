@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Restaurant Prospects — Toast</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: #f4f4f4;
+            color: #1a1a1a;
+            font-size: 13px;
+        }
+
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            z-index: 100;
+        }
+        .login-box {
+            background: #fff;
+            border-radius: 8px;
+            padding: 44px 40px;
+            width: 340px;
+            text-align: center;
+        }
+        .login-box h1 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .login-box p  { font-size: 13px; color: #777; margin-bottom: 28px; }
+        .login-box input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            outline: none;
+        }
+        .login-box input:focus { border-color: #c0392b; }
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .login-box button:hover { background: #a93226; }
+        .login-error { color: #c0392b; font-size: 12px; margin-top: 10px; display: none; }
+
+        #app { display: none; min-height: 100vh; }
+
+        .top-bar {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .top-bar h1 { font-size: 14px; font-weight: 700; letter-spacing: 0.02em; }
+        .top-bar .updated { font-size: 11px; color: #888; }
+
+        .stats-bar {
+            background: #fff;
+            border-bottom: 1px solid #e8e8e8;
+            padding: 14px 24px;
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat .num   { font-size: 24px; font-weight: 700; line-height: 1; }
+        .stat .label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+
+        .tab-bar {
+            background: #fff;
+            border-bottom: 1px solid #e8e8e8;
+            padding: 0 24px;
+            display: flex;
+        }
+        .tab-btn {
+            padding: 11px 18px;
+            border: none;
+            background: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: #777;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        .tab-btn:hover { color: #1a1a1a; }
+        .tab-btn.active { color: #c0392b; border-bottom-color: #c0392b; font-weight: 600; }
+        .tab-btn.denied-tab.active { color: #888; border-bottom-color: #888; }
+
+        .filter-bar {
+            background: #f9f9f9;
+            border-bottom: 1px solid #e8e8e8;
+            padding: 10px 24px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-bar input,
+        .filter-bar select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 12px;
+            background: #fff;
+            outline: none;
+        }
+        .filter-bar input { width: 220px; }
+        .filter-bar input:focus,
+        .filter-bar select:focus { border-color: #c0392b; }
+        .filter-bar label { font-size: 12px; color: #666; }
+        .count-badge { font-size: 11px; color: #999; margin-left: auto; }
+
+        .table-wrap { overflow-x: auto; padding: 16px 24px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        thead th {
+            background: #2b2b2b;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 10px 12px;
+            text-align: left;
+            white-space: nowrap;
+            user-select: none;
+        }
+        thead th.sortable {
+            cursor: pointer;
+        }
+        thead th.sortable:hover { background: #3d3d3d; }
+        .sort-icon { margin-left: 4px; opacity: 0.35; font-style: normal; }
+        thead th.sort-asc .sort-icon,
+        thead th.sort-desc .sort-icon { opacity: 1; color: #f39c12; }
+
+        tbody tr:nth-child(even) { background: #fafafa; }
+        tbody tr:hover { background: #f0f4ff; }
+        tbody td {
+            padding: 9px 12px;
+            vertical-align: top;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+        }
+        .p1 { background: #c0392b; }
+        .p2 { background: #e67e22; }
+        .p3 { background: #27ae60; }
+
+        a.link { color: #2980b9; text-decoration: none; }
+        a.link:hover { text-decoration: underline; }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #2980b9;
+            font-size: 11px;
+            cursor: pointer;
+            padding: 0;
+            text-decoration: none;
+        }
+        .copy-btn:hover { text-decoration: underline; }
+        .copy-btn.copied { color: #27ae60; font-weight: 600; }
+
+        .tag {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #444;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin: 1px;
+        }
+
+        .leverage {
+            color: #c0392b;
+            font-size: 11px;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+        .leverage::before { content: ">> "; }
+
+        .btn-confirm {
+            background: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 11px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+        .btn-confirm:hover { background: #1e8449; }
+
+        .btn-deny {
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 11px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-deny:hover { background: #a93226; }
+
+        .denied-note { font-size: 11px; color: #aaa; font-style: italic; }
+
+        .empty { text-align: center; padding: 60px 24px; color: #aaa; }
+        .empty h3 { font-size: 15px; margin-bottom: 8px; color: #888; }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="login-box">
+        <h1>Korean Prospects</h1>
+        <p>Toast AE — Eastern Territory</p>
+        <input type="password" id="pwd-input" placeholder="Password"
+               onkeydown="if(event.key==='Enter') checkPassword()">
+        <button onclick="checkPassword()">Enter</button>
+        <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+    </div>
+</div>
+
+<div id="app">
+    <div class="top-bar">
+        <h1>Korean Restaurant Prospects &mdash; Toast AE | Eastern Territory</h1>
+        <span class="updated" id="last-updated"></span>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat"><div class="num" id="stat-prospects">—</div><div class="label">Prospects</div></div>
+        <div class="stat"><div class="num" id="stat-p1">—</div><div class="label">Priority 1</div></div>
+        <div class="stat"><div class="num" id="stat-states">—</div><div class="label">States</div></div>
+        <div class="stat"><div class="num" id="stat-toast">—</div><div class="label">On Toast</div></div>
+        <div class="stat"><div class="num" id="stat-flagged">—</div><div class="label">Flagged</div></div>
+        <div class="stat"><div class="num" id="stat-openings">—</div><div class="label">New Openings</div></div>
+        <div class="stat"><div class="num" id="stat-denied">—</div><div class="label">Denied</div></div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active"   onclick="switchTab('prospects', this)">Main Prospects</button>
+        <button class="tab-btn"          onclick="switchTab('toast',     this)">Already on Toast</button>
+        <button class="tab-btn"          onclick="switchTab('flagged',   this)">Flagged</button>
+        <button class="tab-btn"          onclick="switchTab('openings',  this)">New Openings</button>
+        <button class="tab-btn denied-tab" onclick="switchTab('denied',  this)">Denied</button>
+    </div>
+
+    <div class="filter-bar" id="filter-bar">
+        <input type="text" id="search-input"
+               placeholder="Search by name, city, POS, email..."
+               oninput="applyFilters()">
+        <label>State:</label>
+        <select id="state-filter" onchange="applyFilters()">
+            <option value="">All States</option>
+        </select>
+        <label>Priority:</label>
+        <select id="priority-filter" onchange="applyFilters()">
+            <option value="">All</option>
+            <option value="1">1 — High</option>
+            <option value="2">2 — Medium</option>
+            <option value="3">3 — Standard</option>
+        </select>
+        <span class="count-badge" id="count-badge"></span>
+    </div>
+
+    <div class="table-wrap">
+        <div id="table-container"></div>
+    </div>
+</div>
+
+<script>
+// Password: xhtmxm
+const PASSWORD_HASH = 'd885fe545b0b49fc2beb6c7aa708d65efd7f541e4849e73a6d13d5c48eb45e70';
+
+async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkPassword() {
+    const val = document.getElementById('pwd-input').value;
+    if (!val) return;
+    const hash = await sha256(val);
+    if (hash === PASSWORD_HASH) {
+        sessionStorage.setItem('kr_auth', '1');
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        initApp();
+    } else {
+        const err = document.getElementById('login-error');
+        err.style.display = 'block';
+        document.getElementById('pwd-input').select();
+    }
+}
+
+if (sessionStorage.getItem('kr_auth') === '1') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+}
+
+// --- State --------------------------------------------------------------------
+let D = { prospects:[], toast_customers:[], flagged:[], new_openings:[], denied:[], generated:'' };
+let currentTab  = 'prospects';
+let sortState   = { col: null, dir: 'asc' };
+
+// --- Init ---------------------------------------------------------------------
+async function initApp() {
+    try {
+        const resp = await fetch('data.json?' + Date.now());
+        if (!resp.ok) throw new Error();
+        const loaded = await resp.json();
+        D.prospects       = loaded.prospects       || [];
+        D.toast_customers = loaded.toast_customers || [];
+        D.flagged         = loaded.flagged         || [];
+        D.new_openings    = loaded.new_openings    || [];
+        D.generated       = loaded.generated       || '';
+
+        // Restore session decisions
+        const savedDenied     = sessionStorage.getItem('kr_denied');
+        const savedConfirmed  = sessionStorage.getItem('kr_confirmed');
+        D.denied = savedDenied ? JSON.parse(savedDenied) : [];
+
+        const deniedNames    = new Set(D.denied.map(d => d.name));
+        const confirmedItems = savedConfirmed ? JSON.parse(savedConfirmed) : [];
+        const confirmedNames = new Set(confirmedItems.map(c => c.name));
+
+        // Strip already-decided items from flagged
+        D.flagged = D.flagged.filter(f => !deniedNames.has(f.name) && !confirmedNames.has(f.name));
+        // Add confirmed items to prospects (avoid dupes)
+        confirmedItems.forEach(c => {
+            if (!D.prospects.find(p => p.name === c.name)) D.prospects.push(c);
+        });
+    } catch(e) {
+        D = sampleData();
+    }
+
+    updateStats();
+    populateStateFilter();
+    document.getElementById('last-updated').textContent =
+        D.generated ? 'Last updated: ' + D.generated : 'No data yet';
+    renderCurrentTab();
+}
+
+if (sessionStorage.getItem('kr_auth') === '1') initApp();
+
+// --- Stats --------------------------------------------------------------------
+function updateStats() {
+    const p1    = D.prospects.filter(p => p.priority === 1).length;
+    const states = new Set(D.prospects.map(p => p.state).filter(Boolean)).size;
+    document.getElementById('stat-prospects').textContent = D.prospects.length;
+    document.getElementById('stat-p1').textContent        = p1;
+    document.getElementById('stat-states').textContent    = states;
+    document.getElementById('stat-toast').textContent     = D.toast_customers.length;
+    document.getElementById('stat-flagged').textContent   = D.flagged.length;
+    document.getElementById('stat-openings').textContent  = D.new_openings.length;
+    document.getElementById('stat-denied').textContent    = D.denied.length;
+}
+
+function populateStateFilter() {
+    const states = [...new Set(D.prospects.map(p => p.state).filter(Boolean))].sort();
+    const sel = document.getElementById('state-filter');
+    while (sel.options.length > 1) sel.remove(1);
+    states.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+}
+
+// --- Tabs ---------------------------------------------------------------------
+function switchTab(tab, btn) {
+    currentTab = tab;
+    sortState  = { col: null, dir: 'asc' };
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('filter-bar').style.display = (tab === 'prospects') ? 'flex' : 'none';
+    renderCurrentTab();
+}
+
+function renderCurrentTab() {
+    if      (currentTab === 'prospects') applyFilters();
+    else if (currentTab === 'toast')     renderToast();
+    else if (currentTab === 'flagged')   renderFlagged();
+    else if (currentTab === 'openings')  renderOpenings();
+    else if (currentTab === 'denied')    renderDenied();
+}
+
+// --- Sort ---------------------------------------------------------------------
+function setSort(col) {
+    if (sortState.col === col) {
+        sortState.dir = sortState.dir === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortState.col = col;
+        sortState.dir = 'asc';
+    }
+    renderCurrentTab();
+}
+
+function sortRows(rows) {
+    if (!sortState.col) return rows;
+    const col = sortState.col;
+    return [...rows].sort((a, b) => {
+        let av = a[col] ?? '', bv = b[col] ?? '';
+        if (typeof av === 'number' && typeof bv === 'number') {
+            return sortState.dir === 'asc' ? av - bv : bv - av;
+        }
+        av = String(av).toLowerCase();
+        bv = String(bv).toLowerCase();
+        if (av < bv) return sortState.dir === 'asc' ? -1 : 1;
+        if (av > bv) return sortState.dir === 'asc' ?  1 : -1;
+        return 0;
+    });
+}
+
+function th(label, col) {
+    if (!col) return `<th>${label}</th>`;
+    const active = sortState.col === col;
+    const cls    = active ? (sortState.dir === 'asc' ? 'sortable sort-asc' : 'sortable sort-desc') : 'sortable';
+    const icon   = active ? (sortState.dir === 'asc' ? '&uarr;' : '&darr;') : '&varr;';
+    return `<th class="${cls}" onclick="setSort('${col}')">${label} <span class="sort-icon">${icon}</span></th>`;
+}
+
+// --- Helpers ------------------------------------------------------------------
+function e(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function copyFromBtn(btn) {
+    const parts = [
+        btn.dataset.address,
+        [btn.dataset.city, btn.dataset.state].filter(Boolean).join(', ')
+    ].filter(Boolean);
+    navigator.clipboard.writeText(parts.join('\n')).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1600);
+    }).catch(() => {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1600);
+    });
+}
+
+// --- Filters ------------------------------------------------------------------
+function applyFilters() {
+    const q        = document.getElementById('search-input').value.toLowerCase();
+    const state    = document.getElementById('state-filter').value;
+    const priority = document.getElementById('priority-filter').value;
+
+    let rows = D.prospects.filter(p => {
+        if (state    && p.state !== state)               return false;
+        if (priority && String(p.priority) !== priority) return false;
+        if (q) {
+            const blob = [p.name, p.city, p.state, p.address, p.pos, p.email, p.phone,
+                          (p.tech_stack||[]).join(' '), p.ownership_signal, p.notes, p.sentiment_summary
+                         ].join(' ').toLowerCase();
+            if (!blob.includes(q)) return false;
+        }
+        return true;
+    });
+
+    rows = sortRows(rows);
+    document.getElementById('count-badge').textContent = rows.length + ' of ' + D.prospects.length;
+    renderProspects(rows);
+}
+
+// --- Render: Prospects --------------------------------------------------------
+function renderProspects(rows) {
+    const c = document.getElementById('table-container');
+    if (!rows.length) {
+        c.innerHTML = '<div class="empty"><h3>No results</h3><p>Adjust your filters or run the prospecting tool.</p></div>';
+        return;
+    }
+    let h = `<table><thead><tr>
+        ${th('State','state')}
+        ${th('City','city')}
+        ${th('Restaurant','name')}
+        <th>Address</th>
+        ${th('Email','email')}
+        <th>Phone</th>
+        <th>Website</th>
+        ${th('Current POS','pos')}
+        <th>Delivery / Tech</th>
+        <th>Online Ordering</th>
+        ${th('Ownership Signal','ownership_signal')}
+        ${th('Sentiment','sentiment')}
+        <th>Leverage Points</th>
+        ${th('Priority','priority')}
+        ${th('Notes','notes')}
+    </tr></thead><tbody>`;
+
+    rows.forEach(p => {
+        const tech     = (p.tech_stack||[]).map(t => `<span class="tag">${e(t)}</span>`).join('');
+        const hasOrder = (p.tech_stack||[]).length > 0 ? 'Yes' : 'No';
+        const pc       = p.priority === 1 ? 'p1' : (p.priority === 2 ? 'p2' : 'p3');
+        const pl       = p.priority === 1 ? '1 - High' : (p.priority === 2 ? '2 - Med' : '3 - Std');
+        const hasAddr  = !!(p.address || p.city);
+        const leverage = p.sentiment_summary
+            ? `<span class="leverage">${e(p.sentiment_summary)}</span>`
+            : '-';
+
+        h += `<tr>
+            <td>${e(p.state)}</td>
+            <td>${e(p.city)}</td>
+            <td><strong>${e(p.name)}</strong></td>
+            <td>${hasAddr
+                ? `<button class="copy-btn"
+                       data-name="${e(p.name)}"
+                       data-address="${e(p.address||'')}"
+                       data-city="${e(p.city)}"
+                       data-state="${e(p.state)}"
+                       onclick="copyFromBtn(this)">Copy</button>`
+                : '-'}</td>
+            <td>${p.email ? `<a href="mailto:${e(p.email)}" class="link">${e(p.email)}</a>` : '-'}</td>
+            <td>${e(p.phone)||'-'}</td>
+            <td>${p.website ? `<a href="${e(p.website)}" target="_blank" class="link">Open</a>` : '-'}</td>
+            <td>${e(p.pos)||'Unknown'}</td>
+            <td>${tech||'-'}</td>
+            <td>${hasOrder}</td>
+            <td>${e(p.ownership_signal)||'-'}</td>
+            <td>${e(p.sentiment)||'-'}</td>
+            <td>${leverage}</td>
+            <td><span class="badge ${pc}">${pl}</span></td>
+            <td>${e(p.notes)||'-'}</td>
+        </tr>`;
+    });
+    c.innerHTML = h + '</tbody></table>';
+}
+
+// --- Render: Toast Customers --------------------------------------------------
+function renderToast() {
+    const c = document.getElementById('table-container');
+    if (!D.toast_customers.length) {
+        c.innerHTML = '<div class="empty"><h3>No Toast customers found yet</h3><p>These will populate after the prospecting tool runs.</p></div>';
+        return;
+    }
+    let rows = sortRows([...D.toast_customers]);
+    let h = `<table><thead><tr>
+        ${th('State','state')} ${th('City','city')} ${th('Restaurant','name')}
+        <th>Email</th><th>Phone</th><th>Website</th>
+        ${th('Toast Signal','toast_signal')} <th>Other Tech</th>
+    </tr></thead><tbody>`;
+    rows.forEach(p => {
+        const tech = (p.tech_stack||[]).map(t => `<span class="tag">${e(t)}</span>`).join('');
+        h += `<tr>
+            <td>${e(p.state)}</td><td>${e(p.city)}</td>
+            <td><strong>${e(p.name)}</strong></td>
+            <td>${p.email ? `<a href="mailto:${e(p.email)}" class="link">${e(p.email)}</a>` : '-'}</td>
+            <td>${e(p.phone)||'-'}</td>
+            <td>${p.website ? `<a href="${e(p.website)}" target="_blank" class="link">Open</a>` : '-'}</td>
+            <td>${e(p.toast_signal)||'-'}</td>
+            <td>${tech||'-'}</td>
+        </tr>`;
+    });
+    c.innerHTML = h + '</tbody></table>';
+}
+
+// --- Render: Flagged ----------------------------------------------------------
+function confirmFlagged(name) {
+    const idx = D.flagged.findIndex(f => f.name === name);
+    if (idx === -1) return;
+    const item = D.flagged.splice(idx, 1)[0];
+    const prospect = { ...item, priority: item.priority || 2, notes: (item.notes||'') + (item.notes ? ' ' : '') + '[Added from Flagged]' };
+    if (!D.prospects.find(p => p.name === prospect.name)) D.prospects.push(prospect);
+    const saved = JSON.parse(sessionStorage.getItem('kr_confirmed') || '[]');
+    saved.push(prospect);
+    sessionStorage.setItem('kr_confirmed', JSON.stringify(saved));
+    updateStats();
+    renderFlagged();
+}
+
+function denyFlagged(name) {
+    const idx = D.flagged.findIndex(f => f.name === name);
+    if (idx === -1) return;
+    const item = D.flagged.splice(idx, 1)[0];
+    D.denied.push({ ...item, denied_at: new Date().toLocaleDateString() });
+    sessionStorage.setItem('kr_denied', JSON.stringify(D.denied));
+    updateStats();
+    renderFlagged();
+}
+
+function renderFlagged() {
+    const c = document.getElementById('table-container');
+    if (!D.flagged.length) {
+        c.innerHTML = '<div class="empty"><h3>No flagged restaurants</h3><p>All clear - or nothing to review yet.</p></div>';
+        return;
+    }
+    let rows = sortRows([...D.flagged]);
+    let h = `<table><thead><tr>
+        ${th('State','state')} ${th('City','city')} ${th('Restaurant','name')}
+        <th>Website</th>
+        ${th('Flag Type','flag_type')}
+        <th>What We Found</th>
+        <th>Recommended Action</th>
+        <th>Decision</th>
+    </tr></thead><tbody>`;
+    rows.forEach(p => {
+        const safeName = e(p.name);
+        h += `<tr>
+            <td>${e(p.state)}</td><td>${e(p.city)}</td>
+            <td><strong>${safeName}</strong></td>
+            <td>${p.website ? `<a href="${e(p.website)}" target="_blank" class="link">Open</a>` : '-'}</td>
+            <td>${e(p.flag_type)||'Unclear'}</td>
+            <td>${e(p.reason)||'-'}</td>
+            <td>${e(p.action)||'Manual review'}</td>
+            <td>
+                <button class="btn-confirm" onclick="confirmFlagged(${JSON.stringify(p.name)})">&#10003; Confirm</button>
+                <button class="btn-deny"    onclick="denyFlagged(${JSON.stringify(p.name)})">&#10007; Deny</button>
+            </td>
+        </tr>`;
+    });
+    c.innerHTML = h + '</tbody></table>';
+}
+
+// --- Render: New Openings -----------------------------------------------------
+function renderOpenings() {
+    const c = document.getElementById('table-container');
+    if (!D.new_openings.length) {
+        c.innerHTML = '<div class="empty"><h3>No new openings tracked yet</h3><p>The tool will scan liquor license filings, business registrations, Korean job boards, and more.</p></div>';
+        return;
+    }
+    let rows = sortRows([...D.new_openings]);
+    let h = `<table><thead><tr>
+        ${th('State','state')} ${th('City','city')} ${th('Restaurant','name')}
+        <th>Email</th><th>Phone</th><th>Website / Social</th>
+        ${th('Cuisine','cuisine')}
+        ${th('Expected Opening','opening_date')}
+        ${th('Source','source')}
+        <th>Ownership Signal</th>
+        <th>Notes</th>
+    </tr></thead><tbody>`;
+    rows.forEach(p => {
+        h += `<tr>
+            <td>${e(p.state)}</td><td>${e(p.city)}</td>
+            <td><strong>${e(p.name)}</strong></td>
+            <td>${p.email ? `<a href="mailto:${e(p.email)}" class="link">${e(p.email)}</a>` : '-'}</td>
+            <td>${e(p.phone)||'-'}</td>
+            <td>${p.website ? `<a href="${e(p.website)}" target="_blank" class="link">Open</a>` : '-'}</td>
+            <td>${e(p.cuisine)||'-'}</td>
+            <td>${e(p.opening_date)||'TBD'}</td>
+            <td>${e(p.source)||'-'}</td>
+            <td>${e(p.ownership_signal)||'-'}</td>
+            <td>${e(p.notes)||'-'}</td>
+        </tr>`;
+    });
+    c.innerHTML = h + '</tbody></table>';
+}
+
+// --- Render: Denied -----------------------------------------------------------
+function renderDenied() {
+    const c = document.getElementById('table-container');
+    if (!D.denied.length) {
+        c.innerHTML = '<div class="empty"><h3>No denied restaurants</h3><p>Restaurants you deny from the Flagged tab will appear here.</p></div>';
+        return;
+    }
+    let rows = sortRows([...D.denied]);
+    let h = `<table><thead><tr>
+        ${th('State','state')} ${th('City','city')} ${th('Restaurant','name')}
+        <th>Website</th>
+        ${th('Flag Type','flag_type')}
+        <th>Reason</th>
+        ${th('Denied On','denied_at')}
+    </tr></thead><tbody>`;
+    rows.forEach(p => {
+        h += `<tr>
+            <td>${e(p.state)}</td><td>${e(p.city)}</td>
+            <td><strong>${e(p.name)}</strong></td>
+            <td>${p.website ? `<a href="${e(p.website)}" target="_blank" class="link">Open</a>` : '-'}</td>
+            <td>${e(p.flag_type)||'-'}</td>
+            <td>${e(p.reason)||'-'}</td>
+            <td><span class="denied-note">${e(p.denied_at)||'-'}</span></td>
+        </tr>`;
+    });
+    c.innerHTML = h + '</tbody></table>';
+}
+
+// --- Sample Data --------------------------------------------------------------
+function sampleData() {
+    return {
+        generated: 'Sample - run the tool for real data',
+        prospects: [
+            {
+                state:'NY', city:'Flushing', name:'Kang Ho Dong Baekjeong',
+                address:'136-70 39th Ave #200',
+                email:'', phone:'(718) 888-9997', website:'https://baekjeong.com',
+                pos:'Square', tech_stack:['DoorDash','Grubhub'],
+                ownership_signal:'Korean cuisine - auto-qualified',
+                sentiment:'2*: "payment system slow at peak hours..."',
+                sentiment_summary:'Customers repeatedly mention slow checkout and system crashes during dinner rush - direct pain point for Square.',
+                priority:1, notes:'High-volume KBBQ. Strong upgrade candidate.'
+            }
+        ],
+        toast_customers:[], flagged:[], new_openings:[], denied:[]
+    };
+}
+</script>
+</body>
+</html>
