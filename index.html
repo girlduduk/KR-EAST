@@ -230,17 +230,18 @@ async function initApp() {
         if (!D.prospects.find(p => p.name === c.name)) D.prospects.push(c);
     });
 
-    // Apply deletions, manual toast marks, and notes
-    D.prospects = D.prospects.filter(p => !deletedP.has(p.name) && !toastMarked.has(p.name));
-    D.new_openings = D.new_openings.filter(o => !deletedO.has(o.name));
-
-    // Move toast-marked prospects to toast_customers
+    // Move toast-marked prospects to toast_customers BEFORE filtering them out
+    // (must search D.prospects while the item is still in there)
     toastMarked.forEach(name => {
-        const p = [...D.prospects, ...D.flagged].find(x => x.name === name);
+        const p = D.prospects.find(x => x.name === name) || D.flagged.find(x => x.name === name);
         if (p && !D.toast_customers.find(t => t.name === name)) {
             D.toast_customers.push({ ...p, toast_signal: 'Manually marked by BDR' });
         }
     });
+
+    // Now filter out deleted and toast-marked items from prospects
+    D.prospects = D.prospects.filter(p => !deletedP.has(p.name) && !toastMarked.has(p.name));
+    D.new_openings = D.new_openings.filter(o => !deletedO.has(o.name));
 
     // Inject saved notes
     D.prospects.forEach(p => { if (notes[p.name]) p.notes = notes[p.name]; });
