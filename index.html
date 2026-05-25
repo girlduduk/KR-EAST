@@ -92,8 +92,13 @@
         .empty h3 { font-size: 15px; margin-bottom: 8px; color: #888; }
 
         .notes-cell { min-width: 120px; }
-        .notes-input { width: 100%; border: 1px solid #e0e0e0; border-radius: 3px; padding: 3px 6px; font-size: 11px; font-family: inherit; resize: none; background: #fafafa; }
+        .notes-input { width: 100%; min-width: 180px; border: 1px solid #e0e0e0; border-radius: 3px; padding: 5px 8px; font-size: 11px; font-family: inherit; resize: vertical; background: #fafafa; min-height: 72px; }
         .notes-input:focus { outline: none; border-color: #c0392b; background: #fff; }
+        .mass-delete-bar { display: none; padding: 8px 24px; background: #fff3f3; border-bottom: 1px solid #f5c6c6; align-items: center; gap: 10px; }
+        .mass-delete-bar.visible { display: flex; }
+        .btn-mass-delete { background: #c0392b; color: #fff; border: none; border-radius: 4px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
+        .btn-mass-delete:hover { background: #a93226; }
+        .mass-delete-bar span { font-size: 12px; color: #c0392b; font-weight: 500; }
 
         .sentiment-text { font-size: 11px; color: #555; line-height: 1.4; max-width: 220px; }
     </style>
@@ -150,6 +155,11 @@
         <span class="count-badge" id="count-badge"></span>
     </div>
 
+    <div class="mass-delete-bar" id="mass-delete-bar">
+        <span id="mass-delete-count"></span>
+        <button class="btn-mass-delete" onclick="massDeleteSelected()">&#128465; Delete Selected</button>
+        <button class="btn-delete" onclick="clearAllCheckboxes()" style="font-size:12px;padding:5px 10px;">Clear</button>
+    </div>
     <div class="table-wrap">
         <div id="table-container"></div>
     </div>
@@ -430,8 +440,8 @@ function renderProspects(rows) {
     let h = `<table><thead><tr>
         <th class="chk-col"><input type="checkbox" id="chk-all-p" onchange="toggleAllCheckboxes('p',this.checked)"></th>
         ${th('State','state')} ${th('City','city')} ${th('Restaurant','name')}
-        <th>Email</th> <th>Phone</th> <th>Website</th>
-        ${th('POS','pos')} <th>Delivery / Tech</th>
+        <th>Email</th> <th>Phone</th> <th>Website</th> <th>Location</th>
+        ${th('POS','pos')} <th>Tech Stack</th>
         ${th('Sentiment','sentiment')}
         <th>Leverage Points</th>
         ${th('Priority','priority')}
@@ -440,27 +450,32 @@ function renderProspects(rows) {
     </tr></thead><tbody>`;
 
     rows.forEach((p, i) => {
-        const tech     = (p.tech_stack||[]).map(t => `<span class="tag">${e(t)}</span>`).join('');
-        const pc       = p.priority === 1 ? 'p1' : (p.priority === 2 ? 'p2' : 'p3');
-        const pl       = p.priority === 1 ? '1 - High' : (p.priority === 2 ? '2 - Med' : '3 - Std');
-        const leverage = p.sentiment_summary ? `<span class="leverage">${e(p.sentiment_summary)}</span>` : '-';
-        const safeN    = e(p.name);
+        const tech      = (p.tech_stack||[]).map(t => `<span class="tag">${e(t)}</span>`).join('');
+        const pc        = p.priority === 1 ? 'p1' : (p.priority === 2 ? 'p2' : 'p3');
+        const pl        = p.priority === 1 ? '1 - High' : (p.priority === 2 ? '2 - Med' : '3 - Std');
+        const leverage  = p.sentiment_summary ? `<span class="leverage">${e(p.sentiment_summary)}</span>` : '-';
+        const safeN     = e(p.name);
         const savedNote = (loadLocal('kr_notes',{}))[p.name] || p.notes || '';
+        // Location: use stored address if available, otherwise build a Google Maps search
+        const mapsQuery = encodeURIComponent((p.address || (p.name + ' ' + p.city + ' ' + p.state)));
+        const mapsUrl   = `https://maps.google.com/?q=${mapsQuery}`;
+        const locationLabel = p.address ? e(p.address) : `${e(p.city)}, ${e(p.state)}`;
 
         h += `<tr>
-            <td class="chk-col"><input type="checkbox" class="row-chk-p" value="${safeN}"></td>
+            <td class="chk-col"><input type="checkbox" class="row-chk-p" value="${safeN}" onchange="updateMassDeleteBar()"></td>
             <td>${e(p.state)}</td>
             <td>${e(p.city)}</td>
             <td><strong>${safeN}</strong></td>
             <td>${p.email ? `<a href="mailto:${e(p.email)}" class="link">${e(p.email)}</a>` : '-'}</td>
             <td>${e(p.phone)||'-'}</td>
             <td>${p.website ? `<a href="${e(p.website)}" target="_blank" class="link">Website</a>` : '-'}</td>
+            <td><a href="${mapsUrl}" target="_blank" class="link">${locationLabel}</a></td>
             <td>${e(p.pos)||'Unknown'}</td>
             <td>${tech||'-'}</td>
             <td><span class="sentiment-text">${e(p.sentiment)||'-'}</span></td>
             <td>${leverage}</td>
             <td><span class="badge ${pc}">${pl}</span></td>
-            <td class="notes-cell"><textarea class="notes-input" rows="2"
+            <td class="notes-cell"><textarea class="notes-input"
                 data-action="saveNote" data-name="${safeN}">${e(savedNote)}</textarea></td>
             <td style="white-space:nowrap">
                 <button class="btn-toast"  data-action="markAsToast"    data-name="${safeN}">On Toast</button>
@@ -586,9 +601,45 @@ function renderDenied() {
     c.innerHTML = h + '</tbody></table>';
 }
 
-// ── Bulk checkbox ─────────────────────────────────────────────────────────────
+// ── Bulk checkbox + mass delete ───────────────────────────────────────────────
 function toggleAllCheckboxes(type, checked) {
     document.querySelectorAll('.row-chk-' + type).forEach(cb => cb.checked = checked);
+    if (type === 'p') updateMassDeleteBar();
+}
+function updateMassDeleteBar() {
+    const checked = document.querySelectorAll('.row-chk-p:checked');
+    const bar     = document.getElementById('mass-delete-bar');
+    const count   = document.getElementById('mass-delete-count');
+    if (checked.length > 0) {
+        bar.classList.add('visible');
+        count.textContent = checked.length + ' row' + (checked.length > 1 ? 's' : '') + ' selected';
+    } else {
+        bar.classList.remove('visible');
+    }
+}
+function massDeleteSelected() {
+    const checked = [...document.querySelectorAll('.row-chk-p:checked')];
+    if (!checked.length) return;
+    const names   = checked.map(cb => cb.value);
+    const deleted = loadLocal('kr_deleted_prospects', []);
+    names.forEach(name => {
+        // decode HTML entities back to original name
+        const txt = document.createElement('textarea');
+        txt.innerHTML = name;
+        const realName = txt.value;
+        D.prospects = D.prospects.filter(p => p.name !== realName);
+        if (!deleted.includes(realName)) deleted.push(realName);
+    });
+    saveLocal('kr_deleted_prospects', deleted);
+    document.getElementById('mass-delete-bar').classList.remove('visible');
+    updateStats();
+    applyFilters();
+}
+function clearAllCheckboxes() {
+    document.querySelectorAll('.row-chk-p').forEach(cb => cb.checked = false);
+    const all = document.getElementById('chk-all-p');
+    if (all) all.checked = false;
+    document.getElementById('mass-delete-bar').classList.remove('visible');
 }
 
 // ── Delegated event handlers — handles all action buttons and note textareas ──
