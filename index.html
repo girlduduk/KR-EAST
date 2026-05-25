@@ -460,10 +460,10 @@ function renderProspects(rows) {
             <td>${leverage}</td>
             <td><span class="badge ${pc}">${pl}</span></td>
             <td class="notes-cell"><textarea class="notes-input" rows="2"
-                onchange="saveNote(${JSON.stringify(p.name)}, this.value)">${e(savedNote)}</textarea></td>
+                data-action="saveNote" data-name="${safeN}">${e(savedNote)}</textarea></td>
             <td style="white-space:nowrap">
-                <button class="btn-toast"   onclick="markAsToast(${JSON.stringify(p.name)})">On Toast</button>
-                <button class="btn-delete"  onclick="deleteProspect(${JSON.stringify(p.name)})">&times;</button>
+                <button class="btn-toast"  data-action="markAsToast"    data-name="${safeN}">On Toast</button>
+                <button class="btn-delete" data-action="deleteProspect" data-name="${safeN}">&times;</button>
             </td>
         </tr>`;
     });
@@ -521,9 +521,9 @@ function renderFlagged() {
             <td>${e(p.flag_type)||'Unclear'}</td>
             <td>${e(p.reason)||'-'}</td>
             <td style="white-space:nowrap">
-                <button class="btn-confirm" onclick="confirmFlagged(${JSON.stringify(p.name)})">&#10003; Confirm</button>
-                <button class="btn-deny"    onclick="denyFlagged(${JSON.stringify(p.name)})">&#10007; Deny</button>
-                <button class="btn-delete"  onclick="deleteFlagged(${JSON.stringify(p.name)})" style="margin-left:4px">&times;</button>
+                <button class="btn-confirm" data-action="confirmFlagged" data-name="${safeN}">&#10003; Confirm</button>
+                <button class="btn-deny"    data-action="denyFlagged"    data-name="${safeN}">&#10007; Deny</button>
+                <button class="btn-delete"  data-action="deleteFlagged"  data-name="${safeN}" style="margin-left:4px">&times;</button>
             </td>
         </tr>`;
     });
@@ -555,7 +555,7 @@ function renderOpenings() {
             <td>${e(p.ownership_signal)||'-'}</td>
             <td>${p.source ? `<a href="${e(p.source)}" target="_blank" class="link">Source</a>` : '-'}</td>
             <td>${e(p.notes)||'-'}</td>
-            <td><button class="btn-delete" onclick="deleteOpening(${JSON.stringify(p.name)})">&times;</button></td>
+            <td><button class="btn-delete" data-action="deleteOpening" data-name="${e(p.name)}">&times;</button></td>
         </tr>`;
     });
     c.innerHTML = h + '</tbody></table>';
@@ -589,6 +589,27 @@ function renderDenied() {
 function toggleAllCheckboxes(type, checked) {
     document.querySelectorAll('.row-chk-' + type).forEach(cb => cb.checked = checked);
 }
+
+// ── Delegated event handlers — handles all action buttons and note textareas ──
+// Using data-action + data-name avoids inline onclick with restaurant names,
+// which broke whenever a name contained quotes or other special characters.
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('button[data-action]');
+    if (!btn) return;
+    const action = btn.dataset.action;
+    const name   = btn.dataset.name;
+    if      (action === 'markAsToast')    markAsToast(name);
+    else if (action === 'deleteProspect') deleteProspect(name);
+    else if (action === 'confirmFlagged') confirmFlagged(name);
+    else if (action === 'denyFlagged')    denyFlagged(name);
+    else if (action === 'deleteFlagged')  deleteFlagged(name);
+    else if (action === 'deleteOpening')  deleteOpening(name);
+});
+document.addEventListener('change', function(e) {
+    if (e.target.tagName === 'TEXTAREA' && e.target.dataset.action === 'saveNote') {
+        saveNote(e.target.dataset.name, e.target.value);
+    }
+});
 
 // ── Sample Data ───────────────────────────────────────────────────────────────
 function sampleData() {
