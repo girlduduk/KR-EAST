@@ -61,11 +61,6 @@
 
         input[type="checkbox"] { cursor: pointer; width: 14px; height: 14px; }
 
-        .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; }
-        .p1 { background: #c0392b; }
-        .p2 { background: #e67e22; }
-        .p3 { background: #27ae60; }
-
         a.link { color: #2980b9; text-decoration: none; }
         a.link:hover { text-decoration: underline; }
 
@@ -123,7 +118,6 @@
 
     <div class="stats-bar">
         <div class="stat"><div class="num" id="stat-prospects">—</div><div class="label">Prospects</div></div>
-        <div class="stat"><div class="num" id="stat-p1">—</div><div class="label">Priority 1</div></div>
         <div class="stat"><div class="num" id="stat-states">—</div><div class="label">States</div></div>
         <div class="stat"><div class="num" id="stat-toast">—</div><div class="label">On Toast</div></div>
         <div class="stat"><div class="num" id="stat-flagged">—</div><div class="label">Flagged</div></div>
@@ -144,13 +138,6 @@
         <label>State:</label>
         <select id="state-filter" onchange="applyFilters()">
             <option value="">All States</option>
-        </select>
-        <label>Priority:</label>
-        <select id="priority-filter" onchange="applyFilters()">
-            <option value="">All</option>
-            <option value="1">1 — High</option>
-            <option value="2">2 — Medium</option>
-            <option value="3">3 — Standard</option>
         </select>
         <span class="count-badge" id="count-badge"></span>
     </div>
@@ -265,10 +252,8 @@ if (localStorage.getItem('kr_auth') === '1') initApp();
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
 function updateStats() {
-    const p1     = D.prospects.filter(p => p.priority === 1).length;
     const states = new Set(D.prospects.map(p => p.state).filter(Boolean)).size;
     document.getElementById('stat-prospects').textContent = D.prospects.length;
-    document.getElementById('stat-p1').textContent        = p1;
     document.getElementById('stat-states').textContent    = states;
     document.getElementById('stat-toast').textContent     = D.toast_customers.length;
     document.getElementById('stat-flagged').textContent   = D.flagged.length;
@@ -413,10 +398,8 @@ function deleteOpening(name) {
 function applyFilters() {
     const q        = document.getElementById('search-input').value.toLowerCase();
     const state    = document.getElementById('state-filter').value;
-    const priority = document.getElementById('priority-filter').value;
     let rows = D.prospects.filter(p => {
-        if (state    && p.state !== state)               return false;
-        if (priority && String(p.priority) !== priority) return false;
+        if (state && p.state !== state) return false;
         if (q) {
             const blob = [p.name, p.city, p.state, p.pos, p.email, p.phone,
                           (p.tech_stack||[]).join(' '), p.ownership_signal, p.notes, p.sentiment
@@ -444,15 +427,12 @@ function renderProspects(rows) {
         ${th('POS','pos')} <th>Tech Stack</th>
         ${th('Sentiment','sentiment')}
         <th>Leverage Points</th>
-        ${th('Priority','priority')}
         <th class="notes-cell">Notes</th>
         <th>Actions</th>
     </tr></thead><tbody>`;
 
     rows.forEach((p, i) => {
         const tech      = (p.tech_stack||[]).map(t => `<span class="tag">${e(t)}</span>`).join('');
-        const pc        = p.priority === 1 ? 'p1' : (p.priority === 2 ? 'p2' : 'p3');
-        const pl        = p.priority === 1 ? '1 - High' : (p.priority === 2 ? '2 - Med' : '3 - Std');
         const leverage  = p.sentiment_summary ? `<span class="leverage">${e(p.sentiment_summary)}</span>` : '-';
         const safeN     = e(p.name);
         const savedNote = (loadLocal('kr_notes',{}))[p.name] || p.notes || '';
@@ -474,7 +454,6 @@ function renderProspects(rows) {
             <td>${tech||'-'}</td>
             <td><span class="sentiment-text">${e(p.sentiment)||'-'}</span></td>
             <td>${leverage}</td>
-            <td><span class="badge ${pc}">${pl}</span></td>
             <td class="notes-cell"><textarea class="notes-input"
                 data-action="saveNote" data-name="${safeN}">${e(savedNote)}</textarea></td>
             <td style="white-space:nowrap">
@@ -674,7 +653,7 @@ function sampleData() {
             ownership_signal:'Korean cuisine - auto-qualified',
             sentiment:'2*: "payment system slow at peak hours..."',
             sentiment_summary:'Customers mention slow checkout during dinner rush.',
-            priority:2, notes:''
+            notes:''
         }],
         toast_customers:[], flagged:[], new_openings:[], denied:[]
     };
