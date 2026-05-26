@@ -8,56 +8,51 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: #f0f0f0; color: #1a1a1a; font-size: 13px; }
 
-    /* ── TOP BAR ── */
     .top-bar { background: #1a1a1a; color: #fff; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
     .top-bar h1 { font-size: 14px; font-weight: 700; letter-spacing: 0.02em; }
     .top-bar a { color: #f39c12; font-size: 12px; text-decoration: none; font-weight: 600; }
     .top-bar a:hover { text-decoration: underline; }
 
-    /* ── NAV TABS ── */
-    .tab-bar { background: #fff; border-bottom: 2px solid #e8e8e8; padding: 0 24px; display: flex; gap: 4px; }
-    .tab-btn { padding: 12px 20px; border: none; background: none; font-size: 13px; font-weight: 500; color: #777; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+    .tab-bar { background: #fff; border-bottom: 2px solid #e8e8e8; padding: 0 24px; display: flex; gap: 4px; flex-wrap: wrap; }
+    .tab-btn { padding: 12px 18px; border: none; background: none; font-size: 13px; font-weight: 500; color: #777; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
     .tab-btn:hover { color: #1a1a1a; }
     .tab-btn.active { color: #c0392b; border-bottom-color: #c0392b; font-weight: 700; }
 
-    /* ── SECTION PANELS ── */
-    .panel { display: none; padding: 28px 28px; }
+    .panel { display: none; padding: 28px; }
     .panel.active { display: block; }
 
-    /* ── LEGEND ── */
     .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; align-items: center; }
     .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
     .dot.win { background: #27ae60; }
     .dot.loss { background: #e74c3c; }
-    .dot.neutral { background: #f39c12; }
 
-    /* ── COMPETITOR GRID ── */
-    .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 22px; }
+    .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 22px; }
 
     .comp-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; border-top: 4px solid #ccc; }
     .comp-card.asian { border-top-color: #e74c3c; }
     .comp-card.western { border-top-color: #3498db; }
     .comp-card.peblla { border-top-color: #e74c3c; box-shadow: 0 4px 18px rgba(231,76,60,0.18); }
+    .comp-card.goldenkey { border-top-color: #f39c12; box-shadow: 0 4px 18px rgba(243,156,18,0.18); }
 
     .card-header { padding: 16px 20px 12px; display: flex; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid #f0f0f0; }
-    .card-title { display: flex; align-items: center; gap: 10px; }
+    .card-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .card-title h2 { font-size: 16px; font-weight: 800; }
     .badge { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em; }
     .badge.asian-badge { background: #fdecea; color: #c0392b; }
     .badge.western-badge { background: #ebf5fb; color: #2471a3; }
     .badge.hot { background: #fef9e7; color: #d35400; }
-    .threat-meter { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+    .badge.gold { background: #fef9e7; color: #b7770d; }
+    .threat-meter { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
     .threat-label { font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 0.05em; }
     .threat-dots { display: flex; gap: 3px; }
     .tdot { width: 8px; height: 8px; border-radius: 50%; background: #e8e8e8; }
     .tdot.filled { background: #e74c3c; }
 
     .card-tagline { padding: 10px 20px; font-size: 11px; color: #777; font-style: italic; background: #fafafa; border-bottom: 1px solid #f0f0f0; }
-
     .card-body { padding: 16px 20px; }
 
-    .section-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; margin-bottom: 8px; margin-top: 14px; }
+    .section-label { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #aaa; margin-bottom: 8px; margin-top: 16px; }
     .section-label:first-child { margin-top: 0; }
 
     .pros-list, .cons-list, .key-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
@@ -66,30 +61,32 @@
     .key-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; line-height: 1.4; }
     .pros-list li::before { content: "✓"; color: #27ae60; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
     .cons-list li::before { content: "✗"; color: #e74c3c; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-
-    /* highlight important cons */
     .cons-list li.hot-con { background: #fff8f8; border-left: 3px solid #e74c3c; padding: 5px 8px; border-radius: 0 4px 4px 0; color: #c0392b; font-weight: 600; margin-left: -11px; }
     .cons-list li.hot-con::before { margin-top: 3px; }
 
-    /* ── GOLDEN KEY SECTION ── */
-    .golden-key-box { background: linear-gradient(135deg, #fefce8, #fef3cd); border: 2px solid #f39c12; border-radius: 8px; padding: 14px 16px; margin-top: 14px; }
-    .golden-key-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-    .golden-key-header span { font-size: 18px; }
-    .golden-key-header strong { font-size: 12px; font-weight: 800; color: #b7770d; text-transform: uppercase; letter-spacing: 0.06em; }
-    .gk-item { margin-bottom: 10px; }
-    .gk-item:last-child { margin-bottom: 0; }
-    .gk-q { font-size: 12px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; line-height: 1.4; }
-    .gk-q .ko { font-size: 11px; color: #555; font-weight: 400; display: block; margin-top: 2px; }
-    .gk-why { font-size: 11px; color: #666; font-style: italic; line-height: 1.4; }
+    .trap-box { background: linear-gradient(135deg, #1a1a1a, #2c2c2c); border-radius: 8px; padding: 14px 16px; margin-top: 14px; }
+    .trap-box-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .trap-box-header span { font-size: 18px; }
+    .trap-box-header strong { font-size: 12px; font-weight: 800; color: #f39c12; text-transform: uppercase; letter-spacing: 0.06em; }
+    .trap-item { margin-bottom: 10px; }
+    .trap-item:last-child { margin-bottom: 0; }
+    .trap-q { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 3px; line-height: 1.4; }
+    .trap-q .ko { font-size: 11px; color: #aaa; font-weight: 400; display: block; margin-top: 2px; }
+    .trap-why { font-size: 11px; color: #f39c12; font-style: italic; line-height: 1.4; margin-top: 3px; }
 
-    /* ── QUOTE BOX ── */
     .quote-box { background: #f8f8f8; border-left: 3px solid #ccc; padding: 8px 12px; margin: 10px 0; border-radius: 0 4px 4px 0; }
     .quote-box p { font-size: 11px; color: #555; font-style: italic; line-height: 1.5; }
     .quote-box cite { font-size: 10px; color: #999; display: block; margin-top: 4px; font-style: normal; }
+    .quote-box.red { border-left-color: #e74c3c; }
+    .quote-box.red p { color: #c0392b; font-style: normal; font-weight: 600; }
 
-    /* ── KILL SHEET TABLE ── */
+    .stat-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+    .stat-pill { background: #fff3f3; border: 1px solid #f5c6c6; border-radius: 6px; padding: 6px 10px; font-size: 11px; color: #c0392b; font-weight: 700; }
+    .stat-pill.warn { background: #fef9e7; border-color: #f9ca24; color: #b7770d; }
+
+    /* ── KILL SHEET ── */
     .kill-table-wrap { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
-    .kill-table-wrap h2 { padding: 18px 22px 14px; font-size: 15px; font-weight: 800; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 8px; }
+    .kill-table-wrap h2 { padding: 18px 22px 14px; font-size: 15px; font-weight: 800; border-bottom: 1px solid #f0f0f0; }
     table.kill-table { width: 100%; border-collapse: collapse; }
     table.kill-table thead th { background: #1a1a1a; color: #fff; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 11px 16px; text-align: left; }
     table.kill-table tbody tr:nth-child(even) { background: #fafafa; }
@@ -100,20 +97,20 @@
     table.kill-table .kill-ko { font-size: 11px; color: #888; display: block; margin-top: 2px; }
     .weakness-tag { display: inline-block; background: #fdecea; color: #c0392b; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; }
 
-    /* ── GOLDEN KEY MASTER PAGE ── */
-    .gk-master-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 18px; }
-    .gk-master-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
-    .gk-master-card .card-top { background: linear-gradient(135deg, #1a1a1a, #333); color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
-    .gk-master-card .card-top h3 { font-size: 14px; font-weight: 800; }
-    .gk-master-card .card-top .key-icon { font-size: 20px; opacity: 0.8; }
-    .gk-master-card .card-content { padding: 14px 18px; }
-    .gk-step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
-    .gk-step:last-child { margin-bottom: 0; }
-    .gk-num { width: 24px; height: 24px; border-radius: 50%; background: #f39c12; color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-    .gk-text { flex: 1; }
-    .gk-text .q { font-size: 12px; font-weight: 700; color: #1a1a1a; line-height: 1.4; }
-    .gk-text .ko { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.4; }
-    .gk-text .why { font-size: 11px; color: #e74c3c; font-weight: 600; margin-top: 4px; }
+    /* ── TRAP QUESTIONS MASTER ── */
+    .tq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 18px; }
+    .tq-card { background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+    .tq-card .card-top { background: linear-gradient(135deg, #1a1a1a, #333); color: #fff; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+    .tq-card .card-top h3 { font-size: 14px; font-weight: 800; }
+    .tq-card .card-top .icon { font-size: 20px; opacity: 0.8; }
+    .tq-card .card-content { padding: 14px 18px; }
+    .tq-step { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+    .tq-step:last-child { margin-bottom: 0; }
+    .tq-num { width: 24px; height: 24px; border-radius: 50%; background: #c0392b; color: #fff; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .tq-text { flex: 1; }
+    .tq-text .q { font-size: 12px; font-weight: 700; color: #1a1a1a; line-height: 1.4; }
+    .tq-text .ko { font-size: 11px; color: #777; margin-top: 2px; line-height: 1.4; }
+    .tq-text .why { font-size: 11px; color: #c0392b; font-weight: 600; margin-top: 4px; }
 
     /* ── FILTER BAR ── */
     .filter-row { display: flex; gap: 10px; align-items: center; margin-bottom: 22px; flex-wrap: wrap; }
@@ -123,9 +120,8 @@
     .filter-pill:hover, .filter-pill.active { background: #c0392b; color: #fff; border-color: #c0392b; }
     .filter-pill.all.active { background: #1a1a1a; border-color: #1a1a1a; }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      .comp-grid, .gk-master-grid { grid-template-columns: 1fr; }
+      .comp-grid, .tq-grid { grid-template-columns: 1fr; }
       .panel { padding: 16px; }
     }
   </style>
@@ -140,13 +136,14 @@
 <div class="tab-bar">
   <button class="tab-btn active" onclick="showPanel('asian')">🔥 Asian Competitors</button>
   <button class="tab-btn" onclick="showPanel('western')">🌐 Western Competitors</button>
-  <button class="tab-btn" onclick="showPanel('goldkey')">🔑 Golden Key Questions</button>
+  <button class="tab-btn" onclick="showPanel('trapqs')">💀 Trap Questions</button>
   <button class="tab-btn" onclick="showPanel('killsheet')">⚔️ Kill Sheet</button>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!--  PANEL 1 — ASIAN COMPETITORS                           -->
-<!-- ═══════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 1 — ASIAN COMPETITORS               -->
+<!-- ═══════════════════════════════════════════ -->
 <div class="panel active" id="panel-asian">
 
   <div class="filter-row">
@@ -157,9 +154,8 @@
   </div>
 
   <div class="legend">
-    <div class="legend-item"><div class="dot win"></div> What they claim / wins</div>
-    <div class="legend-item"><div class="dot loss"></div> Weaknesses / ammo</div>
-    <div class="legend-item"><div class="dot neutral"></div> Golden key trap question</div>
+    <div class="legend-item"><div class="dot win"></div> What they claim</div>
+    <div class="legend-item"><div class="dot loss"></div> Ammo / weaknesses</div>
   </div>
 
   <div class="comp-grid" id="grid-asian">
@@ -179,88 +175,247 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">iPad/tablet-based POS marketed heavily at Korean & Asian restaurants. Claims free branded app, no monthly fees, no activation fees.</div>
+      <div class="card-tagline">iPad/tablet POS marketed heavily to Korean &amp; Asian restaurants. Claims free branded app, no monthly fees, no activation fees. Heavy presence in Korean social/Kakao networks.</div>
       <div class="card-body">
 
-        <div class="section-label">What They Claim (Their Pitch)</div>
+        <div class="section-label">What They Claim</div>
         <ul class="pros-list">
           <li>Free branded app with online ordering + loyalty built in</li>
           <li>No monthly software fees, no activation fees, no hidden costs</li>
           <li>Kiosk, handheld, and tabletop ordering all included</li>
           <li>24/7 customer support</li>
           <li>3rd party delivery integration (DoorDash, UberEats, etc.)</li>
-          <li>Heavy marketing to Korean restaurant community — they know the culture</li>
+          <li>Heavy Korean community marketing — they know the culture</li>
         </ul>
 
         <div class="section-label">Confirmed Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">MULTI-LOCATION FAILURE: Each location requires a SEPARATE app download. Customers cannot order cross-location. For any Korean BBQ chain or 치킨 franchise — this is a dealbreaker.</li>
-          <li class="hot-con">LOYALTY IS BROKEN: Points redemption threshold is so high that customers can never realistically cash out. It doesn't drive repeat visits.</li>
-          <li class="hot-con">CONFIRMED SYSTEM BUGS (internal intel):
+          <li class="hot-con">MULTI-LOCATION FAILURE: Each location requires a SEPARATE app download. Customers cannot order cross-location. For any Korean BBQ chain, 치킨 franchise, or expanding operator — this is a dealbreaker.</li>
+          <li class="hot-con">LOYALTY IS THEATER: Points redemption threshold is intentionally set so high that customers can never actually cash out. The loyalty program exists on paper only — it does not drive repeat visits.</li>
+          <li class="hot-con">CONFIRMED SYSTEM BUGS (internal intel from Korean restaurant owner network):
             <ul style="list-style:disc;margin-left:16px;margin-top:4px;color:#c0392b;">
               <li>Restaurant closes at 9pm → orders still accepted at 9:09pm (kitchen already closed)</li>
               <li>Order confirmation SMS sent to customers is garbled / nonsense text</li>
               <li>Customers place orders on the app → restaurant NEVER receives the order (lost revenue)</li>
             </ul>
           </li>
-          <li>PRICING OPACITY: No public pricing page. "No hidden fees" is their claim but actual processing rates are never disclosed upfront — you only find out during the sales call</li>
-          <li>SEO MANIPULATION: They dominate their own search results — almost zero independent negative reviews surface publicly. This is deliberate. Real intel lives in restaurant owner networks.</li>
-          <li>No true restaurant benchmarking — can't compare your performance to similar restaurants in market</li>
-          <li>Hardware is standard iPad, not purpose-built for restaurant environment (spills, drops)</li>
+          <li class="hot-con">PRICING OPACITY: No public pricing page. "No hidden fees" is their pitch but actual processing rates are never disclosed until you're deep in a sales call. Unknown % until after you sign.</li>
+          <li>SEO LOCKDOWN: They have aggressively suppressed negative reviews in search. You'll find almost nothing critical about Peblla online — this is deliberate reputation management. Real intel lives in owner-to-owner networks.</li>
+          <li>Standard consumer iPad hardware — not built for restaurant heat, spills, and drops like Toast's purpose-built hardware</li>
           <li>No native payroll, no native scheduling — third-party only</li>
+          <li>No restaurant benchmarking — can't compare performance to nearby competitors</li>
+          <li>No multi-location menu management — each location is an island</li>
         </ul>
+
+        <div class="stat-row">
+          <div class="stat-pill">No public pricing</div>
+          <div class="stat-pill">No cross-location app</div>
+          <div class="stat-pill">Confirmed order loss bug</div>
+        </div>
+
+        <div class="section-label">How Peblla Sells (Know Their Playbook)</div>
+        <ul class="key-list">
+          <li>→ Moves through Korean Facebook groups, Kakao channels, church networks — trust-based, not cold outreach</li>
+          <li>→ "Free" hook: no monthly fees, no activation fees — actual processing rate hidden until post-signing</li>
+          <li>→ Shows photos of Korean restaurants using the system. Looks familiar. Owners don't ask hard questions.</li>
+          <li>→ Loyalty as a feature — looks good on paper, fails in practice (threshold too high for real redemption)</li>
+        </ul>
+
+        <div class="quote-box red">
+          <p>"앱에서 주문했는데 식당에서 못 받았대요. 포인트도 기준이 너무 높아서 못 써요."</p>
+          <cite>— Internal intel, Korean restaurant owner network</cite>
+        </div>
+
+        <div class="quote-box red">
+          <p>AT THE DOOR: "Peblla 쓰고 계시죠? 요즘 Peblla 쪽에서 주문 누락이나 SMS 오류 관련해서 얘기 나오더라고요. 혹시 그런 거 경험하신 적 있으세요?"</p>
+          <cite>"You're on Peblla? I'm hearing about missed orders and garbled confirmation texts. Have you seen that?"</cite>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">분점이 있으세요? 각 지점마다 손님이 앱을 따로 받아야 하는 거 알고 계셨어요?
+              <span class="ko">"Do you have more than one location? Did you know each location needs a separate app download?"</span>
+            </div>
+            <div class="trap-why">→ Exposes multi-location failure immediately. Most chain owners have no idea.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">손님이 앱으로 주문했는데 식당에서 못 받은 적 있으세요?
+              <span class="ko">"Has a customer ever placed an order but the kitchen never got it?"</span>
+            </div>
+            <div class="trap-why">→ Confirmed bug. If they've experienced it, they'll open up. If not, you've planted the seed.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">포인트 실제로 쓴 손님 계세요? 기준이 얼마예요?
+              <span class="ko">"Has any customer actually redeemed their loyalty points? What's the threshold?"</span>
+            </div>
+            <div class="trap-why">→ Threshold is so high no one ever redeems. The loyalty program is marketing fiction.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">정확히 몇 퍼센트 수수료 내고 계세요? 계약서 보셨어요?
+              <span class="ko">"What exactly is your processing rate? Have you read the contract?"</span>
+            </div>
+            <div class="trap-why">→ Pricing never disclosed publicly. Puts them on the defensive immediately.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ GOLDEN KEY POS ══ -->
+    <div class="comp-card goldenkey" data-tags="korean asian">
+      <div class="card-header">
+        <div class="card-title">
+          <h2>Golden Key POS</h2>
+          <span class="badge asian-badge">Korean POS</span>
+          <span class="badge gold">🔑 Korean-Owned</span>
+        </div>
+        <div class="threat-meter">
+          <div class="threat-label">Threat Level</div>
+          <div class="threat-dots">
+            <div class="tdot filled"></div><div class="tdot filled"></div><div class="tdot filled"></div><div class="tdot filled"></div><div class="tdot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-tagline">Korean-owned POS company founded 2000, developed own POS software in 2011. Recently rebranded as "Golden Key TPS" after acquiring TPS, a Korean card processor (First Data/TSYS ISO). Now pushing new AI software "Mirakey." Deep roots in Korean business community.</div>
+      <div class="card-body">
+
+        <div class="section-label">What They Claim</div>
+        <ul class="pros-list">
+          <li>Korean-owned, Korean-operated — "we understand your community"</li>
+          <li>25+ years in business — established brand trust in Korean circles</li>
+          <li>Owns their own payment processing (TPS acquisition) — pitches "lower rates"</li>
+          <li>Cloud + conventional hybrid — claims no downtime if internet cuts out</li>
+          <li>24/7 support with Korean-speaking reps</li>
+          <li>New "Mirakey" AI software — pitching advanced analytics</li>
+          <li>No public pricing — "contact us for custom rates"</li>
+        </ul>
+
+        <div class="section-label">Weaknesses &amp; Ammo</div>
+        <ul class="cons-list">
+          <li class="hot-con">PAYMENTS COMPANY FIRST, POS SECOND: Golden Key started as a credit card processor in 2000. They built a POS in 2011 — as an add-on to their core processing business. Their DNA is card fees, not restaurant operations. Toast was built for restaurants from day one.</li>
+          <li class="hot-con">THEY ACQUIRED TPS TO LOCK YOU INTO THEIR PROCESSING: The whole point of the TPS acquisition is to bundle their card processing with their POS. "Lower rates" is the hook — but you're now locked into one processor with zero leverage to negotiate. If their rates go up, you have no out.</li>
+          <li class="hot-con">MIRAKEY IS UNPROVEN: They just rebranded and launched "Mirakey" as an AI product. No real track record, no independent reviews, no case studies. You're being asked to run your restaurant on beta software.</li>
+          <li class="hot-con">ZERO INDEPENDENT REVIEWS: Search "Golden Key POS review" — you get almost nothing except their own website. No G2, no Capterra, no Trustpilot, no restaurant owner forum threads. A POS with 25 years of history and no public reviews is suspicious.</li>
+          <li>Employee reviews on Glassdoor describe a negative internal culture: "there was a lot going on behind the doors... not a good environment." The product reflects the company.</li>
+          <li>No transparent pricing — you only find out what you're paying after a sales call. Classic opacity play.</li>
+          <li>No publicly documented MLM (multi-location management) for Korean chains</li>
+          <li>No native payroll, scheduling, or marketing tools — core restaurant management requires separate vendors</li>
+          <li>Small company (~50 employees) — limited engineering capacity, limited roadmap, existential acquisition risk</li>
+          <li>The "Korean-owned" angle is real — but speaking Korean ≠ having a better product. Toast has Korean language support AND a dedicated Korean restaurant team.</li>
+        </ul>
+
+        <div class="stat-row">
+          <div class="stat-pill">~50 employees</div>
+          <div class="stat-pill warn">Mirakey = unproven</div>
+          <div class="stat-pill">Processing lock-in risk</div>
+          <div class="stat-pill">No public reviews</div>
+        </div>
 
         <div class="quote-box">
-          <p>"앱에서 주문했는데 식당에서 못 받았대요. 그냥 쿠폰도 포인트도 못 써요 — 너무 높아서."</p>
-          <cite>— Internal intel from Korean restaurant owner network</cite>
+          <p>"The whole point of them buying TPS is so they can bundle your card processing. The 'lower rate' is a hook — once you're in, they have all the leverage."</p>
+          <cite>— Competitive field analysis</cite>
         </div>
 
-        <div class="section-label" style="margin-top:14px;">How Peblla Sells (Know Their Playbook)</div>
-        <ul class="key-list">
-          <li>→ <strong>Heavy community marketing</strong> — Korean restaurant Facebook groups, Kakao channels, church network referrals. They move through trust networks, not cold outreach.</li>
-          <li>→ <strong>"Free" hook</strong> — "No monthly fees, no activation fees" is the opener. The actual processing rate is never revealed until you're deep in the conversation.</li>
-          <li>→ <strong>Social proof in Korean</strong> — they show photos of Korean restaurants using the system. It looks familiar. Owners don't ask hard questions about what's under the hood.</li>
-          <li>→ <strong>SEO lockdown</strong> — they have aggressively suppressed negative reviews in search results. You will not find critical articles about Peblla through a casual Google search. This is by design.</li>
-          <li>→ <strong>Loyalty as a feature</strong> — they lead with the free branded app and loyalty program. But the redemption threshold is so high that customers never actually use it. It's a feature that exists on paper.</li>
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">지금 처리 수수료가 Golden Key TPS 통해서 나가고 있죠? 다른 프로세서로 바꾸면 어떻게 되나요?
+              <span class="ko">"Your processing is running through Golden Key TPS, right? What happens if you want to switch processors?"</span>
+            </div>
+            <div class="trap-why">→ They're bundled. Switching processors likely means leaving the POS. Most owners don't know this until they try.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">Mirakey — 실제로 쓰고 있는 식당 레퍼런스 있나요? 얼마나 됐어요?
+              <span class="ko">"Mirakey — can they give you references of restaurants actually using it? How long has it been live?"</span>
+            </div>
+            <div class="trap-why">→ It just launched. There are no real-world references. It's beta software on your live restaurant.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">Golden Key POS 후기 온라인에서 찾아보셨어요? 리뷰가 있었나요?
+              <span class="ko">"Did you research Golden Key POS online before signing? Were there any reviews?"</span>
+            </div>
+            <div class="trap-why">→ Almost none exist. When a 25-year-old company has zero public reviews, that's not neutral — it's a red flag.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ KWIK POS ══ -->
+    <div class="comp-card asian" data-tags="korean asian">
+      <div class="card-header">
+        <div class="card-title">
+          <h2>KwickPOS</h2>
+          <span class="badge asian-badge">Asian POS</span>
+        </div>
+        <div class="threat-meter">
+          <div class="threat-label">Threat Level</div>
+          <div class="threat-dots">
+            <div class="tdot filled"></div><div class="tdot filled"></div><div class="tdot filled"></div><div class="tdot"></div><div class="tdot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-tagline">Cloud + on-premise hybrid POS targeting restaurants, bars, and retail. Has a dedicated Korean restaurant page. Pitches no-contract, no hidden fees, multi-language support including Korean. Dallas-based.</div>
+      <div class="card-body">
+
+        <div class="section-label">What They Claim</div>
+        <ul class="pros-list">
+          <li>Month-to-month, no minimum commitment, cancel anytime</li>
+          <li>Korean language support (among 8+ languages)</li>
+          <li>Cloud + offline hybrid — claims full function without internet</li>
+          <li>Processor-agnostic — not locked into their own payments</li>
+          <li>Multi-location management available</li>
+          <li>No early termination fees, no hidden auto-renewal clauses</li>
         </ul>
 
-        <div class="section-label" style="margin-top:14px;">What to Say at the Door</div>
-        <div class="quote-box" style="border-left-color:#e74c3c;">
-          <p style="color:#c0392b;font-style:normal;font-weight:600;">"Peblla 쓰고 계시죠? 저도 한국 식당들이랑 많이 얘기하는데, 요즘 Peblla 쪽에서 주문 누락이나 SMS 오류 관련해서 얘기 나오더라고요. 혹시 그런 거 경험하신 적 있으세요?"</p>
-          <cite>"You're on Peblla right? I talk to a lot of Korean restaurants — lately there's been talk about missed orders and garbled SMS confirmations. Have you experienced anything like that?"</cite>
+        <div class="section-label">Weaknesses &amp; Ammo</div>
+        <ul class="cons-list">
+          <li class="hot-con">POS CRASHES DAILY: Multiple verified reviews report the kitchen send function glitches multiple times per day — if items can't be sent to the kitchen, the entire POS is useless. One owner reported critical errors from day one that took 55 days to partially resolve.</li>
+          <li class="hot-con">CANNOT PROCESS CREDIT CARD REFUNDS: The system cannot issue credit card refunds for partial orders or quantities — restaurants are forced to pay back customers in cash while still absorbing the original card processing fees. This is a fundamental payment processing failure.</li>
+          <li class="hot-con">MENU SETUP DISASTERS: Documented cases of KwickPOS delivering a menu fully built for the wrong restaurant — wrong items, wrong language, had to be rebuilt from scratch during live service. One owner spent 5 days rebuilding the menu themselves.</li>
+          <li class="hot-con">CUSTOMER SUPPORT THAT DISAPPEARS: "Failure to respond, empty promises, total lack of concern." Junior support reps give different answers to the same problem. Errors persisted for 55 days with no resolution and no accountability.</li>
+          <li>Out-of-stock items remain orderable via online ordering for days — no real-time inventory sync</li>
+          <li>No API — cannot integrate with custom third-party tools or reporting systems</li>
+          <li>Reporting described as limited — missing modifier-level analysis and restaurant-specific analytics</li>
+          <li>Small company feel — responses inconsistent, escalation paths unclear</li>
+          <li>No native payroll, no native scheduling, no loyalty program depth</li>
+        </ul>
+
+        <div class="stat-row">
+          <div class="stat-pill">Daily kitchen send glitches</div>
+          <div class="stat-pill">No CC refunds</div>
+          <div class="stat-pill">No API</div>
         </div>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Do you have more than one location?
-              <span class="ko">체인이나 분점이 있으세요? 각 지점마다 손님이 앱을 따로 받아야 하는 거 알고 계셨어요?</span>
+        <div class="quote-box">
+          <p>"The POS will glitch and the function to send items to the kitchen just doesn't work — if you can't send items, the POS is 100% useless. This happened multiple times per day."</p>
+          <cite>— Verified customer review</cite>
+        </div>
+        <div class="quote-box">
+          <p>"Menu was improperly created — language mistakes, wrong items, fully customized for a different restaurant. We spent 5 days redoing the entire menu throughout service."</p>
+          <cite>— Verified customer review</cite>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">손님이 카드로 결제했는데 환불 요청하면 어떻게 처리하세요?
+              <span class="ko">"If a customer paid by card and requests a refund, how do you process it?"</span>
             </div>
-            <div class="gk-why">→ Immediately exposes the multi-location app failure. Most owners with 2+ locations don't know this.</div>
+            <div class="trap-why">→ KwickPOS can't issue card refunds. They pay customers back in cash and absorb the card fees. A lot of owners don't even know this until it happens.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Have you ever had a customer place an order but the kitchen never got it?
-              <span class="ko">손님이 앱으로 주문했는데 식당에서 못 받은 적 있으세요?</span>
+          <div class="trap-item">
+            <div class="trap-q">KDS나 주방 전송 오류 경험해보신 적 있으세요? 하루에 몇 번이나요?
+              <span class="ko">"Have you ever had the kitchen send function fail? How often does it glitch?"</span>
             </div>
-            <div class="gk-why">→ Confirmed bug. If they've experienced it, they'll open up. If not, plant the seed.</div>
+            <div class="trap-why">→ Confirmed daily occurrence. If they haven't seen it yet, they will. Plant the seed.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Have customers complained that their order confirmation text was garbled or didn't make sense?
-              <span class="ko">손님한테서 주문 확인 문자가 이상하다고 연락 온 적 있어요?</span>
+          <div class="trap-item">
+            <div class="trap-q">문제 생겼을 때 기술 지원팀이 얼마나 빨리 대응했어요?
+              <span class="ko">"When something went wrong, how fast did tech support actually respond?"</span>
             </div>
-            <div class="gk-why">→ Confirmed bug. SMS confirmations sent as nonsense text. Professional embarrassment for the owner.</div>
-          </div>
-          <div class="gk-item">
-            <div class="gk-q">What exactly is your monthly processing rate?
-              <span class="ko">지금 정확히 몇 퍼센트 수수료 내고 계세요? 계약서 보셨어요?</span>
-            </div>
-            <div class="gk-why">→ Pricing is never disclosed publicly. Puts them on the defensive.</div>
-          </div>
-          <div class="gk-item">
-            <div class="gk-q">Your loyalty program — has any customer actually redeemed points? What's the redemption threshold?
-              <span class="ko">포인트 실제로 쓴 손님 계세요? 기준이 얼마예요?</span>
-            </div>
-            <div class="gk-why">→ Threshold is intentionally set too high for real redemption. The loyalty program is theater, not retention.</div>
+            <div class="trap-why">→ Support is the #1 complaint. Get them to say the words themselves.</div>
           </div>
         </div>
 
@@ -281,7 +436,7 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Started as delivery platform, sold delivery to Fantuan (Jan 2024), now pivoting to POS/SaaS. iPad-based. Targets Korean, Chinese, Asian restaurants.</div>
+      <div class="card-tagline">Started as delivery platform, sold delivery to Fantuan (Jan 2024), now pivoting to POS/SaaS. iPad-based. Targets Korean, Chinese, Asian restaurants. Company direction is uncertain.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
@@ -289,45 +444,52 @@
           <li>2–3 day on-site installation and onboarding</li>
           <li>Helps with menu photos and website setup</li>
           <li>WeChat-based customer service (familiar to Asian operators)</li>
-          <li>3rd party delivery integrations</li>
+          <li>3PD delivery integrations</li>
           <li>Online ordering included</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">SOLD THEIR DELIVERY BUSINESS in Jan 2024 — the core thing they were known for. Clear sign the company is pivoting and unstable. What are they now?</li>
-          <li class="hot-con">ALL UI IS IN CHINESE — Korean staff cannot use it comfortably. Toast has Korean language support.</li>
-          <li class="hot-con">3PD SYNC TAKES UP TO 30 MINUTES — inventory updates on DoorDash/UberEats lag significantly. Orders can fall through the gap during rush.</li>
-          <li>iPad handheld is heavy and not purpose-built for restaurants (same hardware for other verticals)</li>
-          <li>CC reader is SEPARATE from the handheld — extra device, extra friction at tableside</li>
-          <li>Uses Stripe as processor (not a PayFac like Toast) — less control, more volatility, harder to troubleshoot</li>
-          <li>Monthly fees fluctuate: $99–$199/mo with hidden fees. CC always IC+ (hard to understand monthly statement)</li>
-          <li>Text marketing ONLY — no email marketing. And text marketing has volume limits.</li>
-          <li>Cancellation penalties confirmed — restaurant owners have been burned</li>
-          <li>CS runs on WeChat group chat: different people on different shifts, inconsistent answers, "we're not sure" is a common response</li>
-          <li>Menu building is much slower than promised despite "quick onboarding" pitch</li>
+          <li class="hot-con">SOLD THEIR CORE BUSINESS: Chowbus sold their delivery platform to Fantuan in Jan 2024 — the very thing they were known for. They're now pivoting to POS. This is a company in identity crisis. What are they in 2 years?</li>
+          <li class="hot-con">ALL UI IS IN CHINESE: Korean staff cannot use it comfortably. Every menu, every button, every screen is in Chinese. Toast has actual Korean language support built in.</li>
+          <li class="hot-con">3PD SYNC TAKES UP TO 30 MINUTES: Inventory updates on DoorDash/UberEats lag badly. Sold-out items keep being ordered during rush. Orders fall through during the gap.</li>
+          <li class="hot-con">HIDDEN FEE CONFIRMED: One customer reported Chowbus added 10% in hidden fees and took 25% of tips, keeping approximately 35% of order value without disclosure to the restaurant.</li>
+          <li>iPad handheld is heavy consumer hardware — not purpose-built for restaurant drops, spills, heat</li>
+          <li>CC reader is a SEPARATE device from the handheld — extra friction at tableside</li>
+          <li>Uses Stripe as processor (not a PayFac) — less control, more volatility, harder to troubleshoot billing issues</li>
+          <li>Monthly fees fluctuate: $99–$199/mo with hidden fees; IC+ on CC makes statements hard to understand</li>
+          <li>Text marketing ONLY — no email marketing, text volume limits apply</li>
+          <li>CS on WeChat group chat — different people each shift, "we're not sure" is a common answer</li>
+          <li>Menu build is much slower than the "2–3 day onboarding" pitch in practice</li>
           <li>No native KDS — kitchen printer only</li>
-          <li>Customers report up to 35% hidden delivery fees kept by platform without disclosure</li>
+          <li>Cancellation penalties confirmed — owners have been burned trying to exit</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Do your Korean staff use the POS comfortably?
-              <span class="ko">한국 직원들이 POS 쓰는 데 불편함 없어요? 인터페이스 다 중국어 아닌가요?</span>
+        <div class="stat-row">
+          <div class="stat-pill">Sold delivery business Jan 2024</div>
+          <div class="stat-pill">Chinese-only UI</div>
+          <div class="stat-pill">30-min 3PD sync lag</div>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">한국 직원들이 POS 쓰는 데 불편함 없어요? 인터페이스가 다 중국어 아닌가요?
+              <span class="ko">"Are your Korean staff comfortable on it? Isn't the interface all in Chinese?"</span>
             </div>
-            <div class="gk-why">→ The all-Chinese UI is a real operational problem in Korean restaurants.</div>
+            <div class="trap-why">→ All-Chinese UI is a real daily operational problem for Korean restaurants.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">When a DoorDash order comes in and your menu is out of sync, how do you handle it?
-              <span class="ko">배달 주문들어왔을 때 메뉴가 실시간 반영이 안 되면 어떻게 하세요?</span>
+          <div class="trap-item">
+            <div class="trap-q">배달 주문 들어왔을 때 메뉴가 실시간 반영이 안 되면 어떻게 하세요?
+              <span class="ko">"When a delivery order comes in and your menu hasn't synced yet, what do you do?"</span>
             </div>
-            <div class="gk-why">→ 30-minute sync lag means sold-out items keep getting ordered. Real operational pain.</div>
+            <div class="trap-why">→ 30-min lag means sold-out items keep coming in during rush. Gets them talking.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Can I see your monthly statement? Let me calculate what you're actually paying.
-              <span class="ko">명세서 보여주시면 실제 수수료 계산해 드릴게요.</span>
+          <div class="trap-item">
+            <div class="trap-q">명세서 보여주시면 실제 수수료 계산해 드릴게요.
+              <span class="ko">"Can I see your monthly statement? I'll calculate what you're really paying."</span>
             </div>
+            <div class="trap-why">→ Hidden fees and tip skimming never show up clearly on statements. The number is always worse than expected.</div>
           </div>
         </div>
 
@@ -348,47 +510,54 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Chinese-market POS targeting Chinese/Asian restaurants. Cloud-based, has online ordering (Mealkeyway), loyalty, 3PD integrations. $49/mo software claim.</div>
+      <div class="card-tagline">Chinese-market POS. Cloud-based. Has online ordering, loyalty (discount-only), 3PD integrations. Low price hook ($49/mo). BBB C+ rating. China-based dev and support team.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
-          <li>All major 3PD platforms integrated directly</li>
+          <li>All major 3PD platforms integrated</li>
           <li>Mobile order/pay via QR code</li>
-          <li>Loyalty program (discount-based)</li>
           <li>Low software cost (~$49/mo)</li>
+          <li>Loyalty discounts included</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">$90 CONFIRMED HIDDEN FEE — does not provide detailed CC statement to restaurant owners. They have no idea what they're actually paying.</li>
-          <li class="hot-con">3PO REMOVES RESTAURANT REVIEWS on DoorDash/Yelp — their 3rd party integration reportedly strips existing reviews off delivery platforms. Direct hit to the restaurant's reputation and income.</li>
-          <li class="hot-con">POST-SIGNING PRICE BAIT AND SWITCH: One customer signed a $9,400 contract. Sales rep returned 4 hours later demanding $10,400. Classic scam tactic.</li>
-          <li>BBB Rating: C+, 1-star review, described by customers as "a low-level alliance of scammers"</li>
-          <li>Dev and customer service team based in China — timezone gaps, slow response, language barriers</li>
-          <li>No tech support for hardware installation — customers had to pay for cable installation themselves, total costs exceeded $5,000+</li>
-          <li>Loyalty is discounts only — no real points system, no data ownership, no tiered rewards</li>
-          <li>Sales reports have inaccurate definitions — "net sales", "gross sales", "net receipt" all inconsistently named. Even their CS can't explain what they mean.</li>
-          <li>KDS often disconnects from POS — no time-stamping when order was placed, no total item quantity, no ticket recall</li>
+          <li class="hot-con">$90 CONFIRMED HIDDEN FEE: Does not provide a detailed CC statement. Restaurant owners have no idea what they're actually paying — the $49/mo base price is bait.</li>
+          <li class="hot-con">3PO STRIPS YOUR DELIVERY REVIEWS: Their 3rd party ordering integration reportedly removes existing restaurant reviews from DoorDash and Yelp. Your reputation takes a direct hit the moment you connect their system.</li>
+          <li class="hot-con">BAIT AND SWITCH CONFIRMED: Customer signed a $9,400 contract. Sales rep returned 4 hours later demanding $10,400. Classic scam. BBB documented this.</li>
+          <li class="hot-con">KDS CONSTANTLY DISCONNECTS: No time-stamp when orders were placed, no total item count, no ticket recall. When the KDS disconnects — which it does — kitchen operations go blind.</li>
+          <li>BBB Rating: C+ with a 1-star review; customers describe the company as "a low-level alliance of scammers"</li>
+          <li>Dev and CS team in China — timezone gap, slow response, language barriers for non-Chinese speakers</li>
+          <li>No tech support for hardware installation — customers paid for their own cable work, total install costs exceeded $5,000+</li>
+          <li>Sales reports have inconsistent definitions — even CS can't explain what "net sales" vs "gross sales" vs "net receipt" means in their own dashboard</li>
+          <li>Loyalty is discounts only — no points, no data ownership, no tiered rewards</li>
         </ul>
+
+        <div class="stat-row">
+          <div class="stat-pill">BBB C+</div>
+          <div class="stat-pill">Reviews stripped from 3PD</div>
+          <div class="stat-pill">$90 hidden fee</div>
+        </div>
 
         <div class="quote-box">
           <p>"After paying and signing the contract, there was no communication. Came back 4 hours later wanting $1,000 more. Their whole team feels like a low-level alliance of scammers."</p>
           <cite>— BBB complaint, 1-star review</cite>
         </div>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Have your delivery platform reviews disappeared or decreased recently?
-              <span class="ko">배달 앱에서 리뷰가 갑자기 사라진 적 있으세요?</span>
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">배달 앱에서 리뷰가 갑자기 사라진 적 있으세요?
+              <span class="ko">"Have your delivery platform reviews disappeared or dropped since switching?"</span>
             </div>
-            <div class="gk-why">→ Menusifu's 3PO is confirmed to strip delivery reviews. If they've noticed this, it's a jaw-dropper.</div>
+            <div class="trap-why">→ Their 3PO strips reviews. If they've noticed it, it's a jaw-dropper. If not, you've just warned them.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Can I see your statement? I'll calculate what you're actually paying vs. what they quoted.
-              <span class="ko">명세서 보여주시면 수수료 계산해 드릴까요?</span>
+          <div class="trap-item">
+            <div class="trap-q">명세서 보여주시면 수수료 계산해 드릴까요? $90 숨겨진 수수료가 있는 경우가 많아요.
+              <span class="ko">"Can I see your statement? There's typically a $90 hidden fee that's never disclosed."</span>
             </div>
+            <div class="trap-why">→ The $90 fee is confirmed. Calling it out before they show you the statement is a power move.</div>
           </div>
         </div>
 
@@ -409,42 +578,43 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Legacy Windows-based POS, popular in Korean/Asian community for decades. Sold through resellers like KORUS Business. High inertia — "my guy set it up years ago."</div>
+      <div class="card-tagline">Legacy Windows-based POS popular in Korean restaurant community for decades. Sold via resellers like KORUS Business. Pure inertia play — "my guy set it up 10 years ago."</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
-          <li>"Triple Guard System" — data backup to 3 locations</li>
+          <li>"Triple Guard System" — data backed up to 3 locations</li>
           <li>Caller ID for delivery orders</li>
-          <li>Address validation for delivery</li>
           <li>Familiar to long-time Korean restaurant operators</li>
+          <li>Community trust built over decades</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">ZERO 3PD INTEGRATIONS — every DoorDash, UberEats, GrubHub order must be manually typed into the POS. Every single time. During rush. By hand.</li>
-          <li class="hot-con">NOT CLOUD-BASED — to change anything on the menu you have to call customer support. Owners cannot self-manage. Zero flexibility.</li>
-          <li>Windows-based legacy system — no handheld, no tableside ordering, no mobile POS</li>
-          <li>Online ordering requires paying extra AND setting up through GoDaddy (separate vendor)</li>
-          <li>$1 fee per online order including pickups — adds up fast for high-volume restaurants</li>
-          <li>Tablet not in offline mode by default — needs extra wifi and CC add-ons just to work offline</li>
-          <li>Website historically lacked HTTPS — raises real security questions about credit card data</li>
-          <li>No loyalty, no marketing tools, no analytics, no benchmarking</li>
-          <li>No innovation in years — same system, same problems</li>
+          <li class="hot-con">ZERO 3PD INTEGRATIONS: Every DoorDash, UberEats, GrubHub order must be manually typed into the POS. Every single order. During rush. By hand. Calculate how much that costs in labor per month.</li>
+          <li class="hot-con">NOT CLOUD-BASED: Menu changes require calling customer support. Owners cannot self-manage. A price change requires a phone call and a wait.</li>
+          <li>Windows-based legacy system — no handheld, no tableside ordering, no mobile access</li>
+          <li>Online ordering requires paying extra AND setting up through GoDaddy (separate vendor entirely)</li>
+          <li>$1 per online order including pickups — adds up fast for any volume restaurant</li>
+          <li>Tablet not offline by default — requires extra wifi add-on and CC add-on to function without internet</li>
+          <li>Website historically lacked HTTPS — raises real questions about credit card data security</li>
+          <li>No loyalty, no marketing tools, no analytics, no benchmarking, no multi-location support</li>
+          <li>No innovation in years — same system, same limitations</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">When a delivery order comes in, do you manually type it into the POS?
-              <span class="ko">배달 주문 들어오면 지금 수동으로 입력하세요? 하루에 몇 번이나요?</span>
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">배달 주문 들어오면 지금 수동으로 입력하세요? 하루에 몇 번이나요?
+              <span class="ko">"When a delivery order comes in, do you manually type it into the POS? How many times a day?"</span>
             </div>
-            <div class="gk-why">→ If they say yes, ask how long it takes. Then calculate daily/weekly labor cost of manual entry.</div>
+            <div class="trap-why">→ Then calculate the cost: 20 orders × 2 min × $15/hr = ~$100/week, $400+/month in pure manual labor waste.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Last time you changed your menu — did you have to call someone?
-              <span class="ko">메뉴 바꿀 때마다 전화해서 부탁하세요?</span>
+          <div class="trap-item">
+            <div class="trap-q">메뉴 바꿀 때마다 전화해서 부탁하세요?
+              <span class="ko">"Last time you changed your menu — did you have to call someone to do it?"</span>
             </div>
+            <div class="trap-why">→ In 2025, calling a rep to change a menu price is absurd. Let them say it out loud.</div>
           </div>
         </div>
 
@@ -465,60 +635,59 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">POS reseller/integrator (Aldelo partner). Serves Korean/Asian restaurants, especially Tri-State area. 10+ years in Korean restaurant community. High trust, high inertia.</div>
+      <div class="card-tagline">Aldelo reseller/integrator. 10+ years in Korean restaurant community. Tri-State focus. High trust inertia — "my guy." But they're a middleman who has zero control over their own product.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
-          <li>10+ years experience in Korean restaurant community</li>
-          <li>Long-term relationships with owners — "my guy" dynamic</li>
+          <li>10+ years in Korean restaurant community</li>
+          <li>"My guy" long-term relationship dynamic</li>
           <li>Will service machines purchased 5+ years ago</li>
           <li>Aldelo Express is cloud-based with 3PD support</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">RESELLER, NOT A SOFTWARE COMPANY — they sell Aldelo, they don't own it. When Aldelo raises prices or makes bad decisions, Sinah's customers suffer and Sinah can do nothing.</li>
-          <li class="hot-con">$99/DEVICE/LICENSE (Aldelo Express) — a restaurant with 3 terminals is paying $297/mo in software licenses alone before any processing fees.</li>
-          <li>Legacy Aldelo (Android-based) = $20K+ upfront hardware, no handheld, no 3PD integration at all</li>
-          <li>3PD only available on Aldelo Express — if the restaurant is on legacy Aldelo through Sinah, they have zero 3PD integration</li>
-          <li>Contract is with Sinah or Aldelo — often unclear to the restaurant owner which entity they're actually bound to</li>
-          <li>No innovation roadmap — they're a reseller. They have no say in product development.</li>
-          <li>Relationship-dependent — if Sinah loses the Aldelo partnership, customers are stranded</li>
+          <li class="hot-con">RESELLER, NOT A PRODUCT COMPANY: They sell Aldelo. They don't own it, didn't build it, can't fix it, can't control the price. When Aldelo raises rates or discontinues a feature, Sinah shrugs. Your "guy" is powerless.</li>
+          <li class="hot-con">$99/DEVICE/LICENSE (Aldelo Express): A restaurant with 3 terminals pays $297/month in software licenses alone — before a single transaction. The costs stack fast and owners rarely realize it.</li>
+          <li>Legacy Aldelo (Android) = $20K+ upfront hardware, no handheld, zero 3PD integration</li>
+          <li>3PD only on Aldelo Express — if they're still on legacy Aldelo, no DoorDash, no UberEats, nothing</li>
+          <li>Contract accountability is unclear — many owners don't know if their agreement is with Sinah or Aldelo directly. If Sinah disappears, who do you call?</li>
+          <li>No innovation — resellers have no product roadmap. They're at the mercy of Aldelo's development team</li>
+          <li>Relationship-dependent support — if your specific Sinah rep leaves, support continuity is gone</li>
         </ul>
 
-        <div class="section-label" style="margin-top:14px;">The "My Guy" Problem — How to Break Inertia</div>
+        <div class="section-label">Breaking the "My Guy" Inertia</div>
         <ul class="key-list">
-          <li>→ Korean owners with Sinah almost never chose Sinah — someone in their network introduced them years ago. The relationship is with a person, not a product. This is inertia, not loyalty.</li>
-          <li>→ The person who set up the POS is often the same person who would be displaced. The owner doesn't want conflict with their community contact.</li>
-          <li>→ <strong>Your angle:</strong> Don't attack Sinah directly. Attack the architecture. "Your guy might be great, but he can't change the fact that Aldelo is the underlying software. He doesn't own the product. He can't control the price increases."</li>
-          <li>→ <strong>Aldelo corporate is the villain</strong> — not the Sinah rep. Make the owner realize their "guy" is just as powerless as they are when Aldelo decides to raise rates or discontinue features.</li>
+          <li>→ Don't attack the Sinah rep. Attack the architecture. "Your rep might be great — but he can't control Aldelo's price hikes. He doesn't own the product."</li>
+          <li>→ The vendor relationship is with a person, not a company. When that person leaves, so does the support.</li>
+          <li>→ <strong>Aldelo is the villain</strong>, not the Sinah rep. Separate the two.</li>
         </ul>
 
-        <div class="quote-box" style="border-left-color:#e74c3c;">
-          <p style="color:#c0392b;font-style:normal;font-weight:600;">"Sinah 쪽 담당자 분이랑 관계 좋으신 거 알아요. 근데 그 분이 Aldelo 가격 올리는 거 막을 수 있나요? 계약은 결국 Aldelo랑 하시는 거잖아요."</p>
-          <cite>"I know you have a good relationship with your Sinah rep. But can he stop Aldelo from raising prices? Your contract is ultimately with Aldelo, not him."</cite>
+        <div class="quote-box red">
+          <p>"Sinah 쪽 담당자 분이랑 관계 좋으신 거 알아요. 근데 그 분이 Aldelo 가격 올리는 거 막을 수 있나요? 계약은 결국 Aldelo랑 하시는 거잖아요."</p>
+          <cite>"I know you have a great relationship with your Sinah rep. But can he stop Aldelo from raising prices? Your contract is ultimately with Aldelo."</cite>
         </div>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Is your contract with Sinah or with Aldelo directly?
-              <span class="ko">현재 POS 계약이 Sinah랑 하신 건가요, Aldelo 본사랑 하신 건가요?</span>
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">현재 POS 계약이 Sinah랑 하신 건가요, Aldelo 본사랑 하신 건가요?
+              <span class="ko">"Is your contract with Sinah or with Aldelo directly?"</span>
             </div>
-            <div class="gk-why">→ Most owners don't know. Creates doubt about accountability if something goes wrong.</div>
+            <div class="trap-why">→ Most owners don't know. Creates immediate accountability doubt.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">How many terminals do you have? Do you know how much you're paying per device per month?
-              <span class="ko">터미널이 몇 개예요? 기기당 월 얼마 내고 계세요?</span>
+          <div class="trap-item">
+            <div class="trap-q">터미널이 몇 개예요? 기기당 월 $99이면 총 얼마예요?
+              <span class="ko">"How many terminals do you have? At $99/device, what's your monthly license bill?"</span>
             </div>
-            <div class="gk-why">→ $99/device adds up fast. A 3-terminal setup = $297/mo in licenses alone.</div>
+            <div class="trap-why">→ 3 terminals = $297/mo. Most owners have never done this math.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">If your Sinah rep left the company tomorrow — who would you call for support?
-              <span class="ko">담당자 분이 내일 회사 그만두면 누구한테 연락하세요?</span>
+          <div class="trap-item">
+            <div class="trap-q">담당자 분이 내일 회사 그만두면 누구한테 연락하세요?
+              <span class="ko">"If your Sinah rep left tomorrow, who would you call for support?"</span>
             </div>
-            <div class="gk-why">→ The "my guy" dynamic collapses when they realize the support is person-dependent, not company-backed.</div>
+            <div class="trap-why">→ The "my guy" dynamic collapses when they realize support is person-dependent, not company-backed.</div>
           </div>
         </div>
 
@@ -539,69 +708,50 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Windows-based (BLUU Restaurant Pro) and Android-based (BLUU Restaurant) POS. Targets fine dining and QSR. Appears in Korean restaurant conversations — primarily from vendor reps, not organic demand. Almost invisible online.</div>
+      <div class="card-tagline">Windows-based (BLUU Restaurant Pro) and Android (BLUU Restaurant) POS. Appears in Korean restaurant conversations via rep-driven sales. Near-zero public presence or independent reviews.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
           <li>Both Windows (Pro) and Android versions available</li>
-          <li>Targets fine dining and quick service restaurants</li>
-          <li>Lower upfront cost pitch vs. enterprise POS</li>
-          <li>Korean-market familiarity (rep-driven sales in Korean restaurant communities)</li>
+          <li>Targets fine dining and QSR</li>
+          <li>Lower upfront cost pitch</li>
+          <li>Korean-community rep sales</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">ZERO PUBLIC TRACK RECORD — almost no independent reviews, no Google reviews, no Yelp, no G2, no Capterra. When a POS vendor has zero independent reviews in 2025, that is not neutral — it is a red flag. Real restaurants talk.</li>
-          <li class="hot-con">WINDOWS-BASED CORE = DEAD ARCHITECTURE — Restaurant Pro runs on Windows. This means: tied to physical hardware, manual Windows updates, no remote management, no cloud dashboard, no mobile access. It's 2008 POS technology in 2025.</li>
-          <li class="hot-con">NO REAL OFFLINE MODE — Windows-based systems have no cloud sync. If the local machine crashes, you have no fallback. Toast stays fully operational offline including kitchen display and payments.</li>
-          <li>Android version is tablet-based — same consumer hardware used in retail and other verticals. Not purpose-built for restaurant spills, heat, and drops.</li>
-          <li>No native payroll, no scheduling, no marketing tools — requires separate vendors for everything a modern POS should include</li>
-          <li>No MLM (Multi-Location Management) — each location is a standalone system. For any Korean restaurant expanding to 2+ locations, you're managing multiple completely separate POS instances</li>
-          <li>No native KDS — kitchen display requires third-party integration (extra cost, extra failure point)</li>
-          <li>No publicly documented support SLA, no 24/7 support advertised, no live chat</li>
-          <li>Tiny install base = no peer community, no benchmarking data, no network effects, no leverage with delivery platforms</li>
-          <li>No restaurant-specific AI or analytics — no labor cost forecasting, no revenue benchmarking, no menu item performance data</li>
-          <li class="hot-con">EXISTENTIAL RISK: Small, unknown vendor with no institutional backing. If BLUU stops operating — goes out of business, gets acquired, or abandons the product — what happens to your POS system, your data, your customer records? Toast is publicly traded (NYSE: TOST). It's not going anywhere.</li>
+          <li class="hot-con">ZERO PUBLIC TRACK RECORD: No G2, no Capterra, no Trustpilot, no Reddit threads. A POS that's been around for years with zero independent reviews is not neutral — it's a warning sign. Real restaurants talk. Silence means something.</li>
+          <li class="hot-con">WINDOWS-BASED = DEAD ARCHITECTURE: Restaurant Pro runs on Windows. No cloud dashboard, no remote access, no mobile management. Manual Windows updates. Tied to physical hardware. This is 2008 POS technology in 2025.</li>
+          <li class="hot-con">EXISTENTIAL RISK: Small company, no institutional backing, no public ownership. If BLUU stops operating — acquired, shut down, or simply abandoned — what happens to your POS, your menu data, and your customer records? Toast is NYSE-listed (TOST). It's not going anywhere.</li>
+          <li>No true offline mode on Windows version — local hardware crash = full blackout</li>
+          <li>No native payroll, scheduling, or marketing tools</li>
+          <li>No MLM — each location is a completely isolated system</li>
+          <li>No native KDS — kitchen display requires third-party integration</li>
+          <li>No 24/7 documented support SLA</li>
+          <li>Tiny install base — no peer community, no benchmarking, no restaurant network effects</li>
+          <li>Glassdoor employee reviews describe a toxic internal culture — "a lot going on behind the doors, not a good environment"</li>
         </ul>
 
-        <div class="quote-box">
-          <p>Search for "BLUU POS review" online — you'll get almost nothing. No Reddit threads, no restaurant owner forums, no third-party review sites. When a vendor leaves no trail, ask why.</p>
-          <cite>— Competitive field intel</cite>
-        </div>
-
-        <div class="section-label" style="margin-top:14px;">Why Owners End Up On BLUU</div>
-        <ul class="key-list">
-          <li>→ <strong>Rep-driven sale</strong> — someone in their Korean business network introduced them. Not a researched decision.</li>
-          <li>→ <strong>Low upfront pitch</strong> — BLUU reps lead with low cost. Once you dig in, there's no transparency on what's included.</li>
-          <li>→ <strong>Language advantage</strong> — reps speak Korean. But speaking Korean ≠ having a good product.</li>
-        </ul>
-
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Can you give me 3 restaurant references who are currently using BLUU and happy with it?
-              <span class="ko">지금 BLUU 쓰고 있는 식당 레퍼런스 3군데만 소개받을 수 있을까요?</span>
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">지금 BLUU 쓰고 있는 식당 레퍼런스 3군데만 소개받을 수 있을까요?
+              <span class="ko">"Can you give me 3 restaurant references currently happy on BLUU?"</span>
             </div>
-            <div class="gk-why">→ They can't produce references because the install base is tiny. Silence is the answer.</div>
+            <div class="trap-why">→ They can't produce them. Tiny install base. Silence is the answer.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">If BLUU goes out of business next year — what happens to your POS, your menu, your customer data?
-              <span class="ko">BLUU가 내년에 없어지면 POS, 메뉴, 손님 데이터 어떻게 되나요?</span>
+          <div class="trap-item">
+            <div class="trap-q">BLUU가 내년에 없어지면 POS 데이터 어떻게 되나요?
+              <span class="ko">"If BLUU stops operating next year — what happens to your data?"</span>
             </div>
-            <div class="gk-why">→ Toast is publicly traded. BLUU has no institutional backing. Existential risk is real for unknown vendors.</div>
+            <div class="trap-why">→ Toast is NYSE-listed. BLUU has no institutional backing. Small vendors carry existential risk.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">How do you update your menu today — can you do it yourself from your phone?
-              <span class="ko">지금 메뉴 업데이트 직접 핸드폰으로 할 수 있으세요?</span>
+          <div class="trap-item">
+            <div class="trap-q">지금 핸드폰으로 메뉴 바로 수정 가능하세요?
+              <span class="ko">"Can you update your menu from your phone right now?"</span>
             </div>
-            <div class="gk-why">→ Windows-based POS = no mobile management. Exposes the architectural limitation immediately.</div>
-          </div>
-          <div class="gk-item">
-            <div class="gk-q">Did you research BLUU online before signing? What reviews did you find?
-              <span class="ko">계약 전에 BLUU 인터넷에서 찾아보셨어요? 후기 많이 있었나요?</span>
-            </div>
-            <div class="gk-why">→ Most owners didn't research. The "no reviews" reality lands differently when they realize it themselves.</div>
+            <div class="trap-why">→ Windows-based POS = no. Immediately exposes the legacy architecture to anyone who knows modern POS can.</div>
           </div>
         </div>
 
@@ -612,15 +762,15 @@
 </div><!-- /panel-asian -->
 
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!--  PANEL 2 — WESTERN COMPETITORS                         -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 2 — WESTERN COMPETITORS             -->
+<!-- ═══════════════════════════════════════════ -->
 <div class="panel" id="panel-western">
 
   <div class="comp-grid">
 
     <!-- ══ SPOTON ══ -->
-    <div class="comp-card western" data-tags="western">
+    <div class="comp-card western">
       <div class="card-header">
         <div class="card-title">
           <h2>SpotOn</h2>
@@ -634,7 +784,7 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Restaurant POS platform competing directly with Toast. Wins on price optics — free hardware, low headline costs. Loses on hidden fees, integration depth, and MLM.</div>
+      <div class="card-tagline">Restaurant POS competing directly with Toast. Wins on price optics — free hardware, $50/mo Core Bundle. Loses on hidden fees, contract traps, no real offline, no MLM.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
@@ -643,36 +793,54 @@
           <li>"Zero cost" processing via Dual Pricing / Cash Discounting</li>
           <li>Month-to-month contracts (no lock-in pitch)</li>
           <li>Core Bundle at $50/mo — looks cheap upfront</li>
-          <li>Local rep support in some markets</li>
           <li>Profit Assist AI tool for P&amp;L analysis</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">HARDWARE TRAP: "Free" hardware must be repaid if you cancel within 1 year. Real examples: Bar Solita owed $14,000, Di Pasquale's owed $18,150.</li>
-          <li class="hot-con">FAKE "FREE" CCP: Dual Pricing raises menu prices 4% but restaurant still pays 3.84% on tips and taxes. AND you must reprint all menus or risk card network fines.</li>
-          <li class="hot-con">HIDDEN FEES STACK: $25/mo connectivity fee + 0.20% platform fee (up to $200/mo) + $995 if you switch payment processors + software doubles if you leave their processing.</li>
-          <li>No true offline mode — only covers ISP outages, NOT SpotOn platform outages. If SpotOn's servers go down, kitchen tickets stop.</li>
-          <li>No MLM (Multi-Location Management) — every location managed separately. A 3-location owner edits 3 menus manually.</li>
-          <li>Patchwork system: no native payroll (Gusto/ADP), no native KDS (FreshKDS integration), no native kiosk (Bite Kiosk). Multiple portals, multiple logins.</li>
-          <li>AI siloed: Profit Assist ($75–$100/mo/location), Marketing Assist, Menu Assistant all separate vs. Toast IQ included in POS</li>
-          <li>Different UX on terminal vs. handheld — staff must learn two interfaces</li>
-          <li>Implementation starts at $1,000 (in-person only) vs. Toast starting at $199</li>
-          <li>As of Q2 2025: new 2.5% gift card load fee added to statements</li>
+          <li class="hot-con">HARDWARE TRAP — "FREE" MEANS OWNED FOR A YEAR: Cancel within 12 months and you owe back the full hardware cost. Real verified examples: Bar Solita owed $14,000. Di Pasquale's owed $18,150. "Month-to-month" is a lie if you have free hardware.</li>
+          <li class="hot-con">FAKE "FREE" DUAL PRICING: Raises menu prices 4% across the board, but still charges 3.84% on tips and taxes. Plus, if you don't reprint every physical menu, you're noncompliant with card network rules and subject to fines.</li>
+          <li class="hot-con">HIDDEN FEES CONFIRMED BY BBB: $25/mo connectivity fee + 0.20% platform fee (up to $200/mo at $100K processing) + $995 processor switch fee + software doubles if you leave SpotOn processing. 13 BBB complaints in last 3 years, billing discrepancies primary issue.</li>
+          <li class="hot-con">ACH WITHDRAWAL ON CANCELLATION: Customers report SpotOn withdrew significant amounts from bank accounts without clear prior documentation. "Since using this software, they have repeatedly taken additional money — over $1,300 extra above our agreed contracted amount."</li>
+          <li>No true offline mode — only covers ISP outages, NOT SpotOn platform outages. SpotOn server goes down = kitchen tickets stop. Toast stays fully operational offline.</li>
+          <li>No MLM — every location managed separately. A 3-location owner edits 3 menus manually, runs 3 reports separately, manages 3 loyalty programs independently.</li>
+          <li>AI siloed: Profit Assist ($75–$100/mo/location), Marketing Assist, Menu Assistant are all separate tools vs. Toast IQ included in base POS</li>
+          <li>Patchwork system: no native payroll (Gusto/ADP), no native KDS (FreshKDS), no native kiosk (Bite Kiosk) — multiple portals, multiple logins, multiple failure points</li>
+          <li>Different UX on terminal vs. handheld — staff must learn two separate interfaces</li>
+          <li>Implementation starts at $1,000 (in-person required) vs. Toast starting at $199</li>
+          <li>New 2.5% gift card load fee added Q2 2025 — quietly added to statements</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">If you cancel within a year, how much hardware do you owe back?
-              <span class="ko">1년 안에 해약하면 하드웨어 비용 얼마나 다시 내야 해요?</span>
+        <div class="stat-row">
+          <div class="stat-pill">13 BBB complaints</div>
+          <div class="stat-pill">$14K–$18K hardware clawback examples</div>
+          <div class="stat-pill">$1,300+ ACH overcharge confirmed</div>
+        </div>
+
+        <div class="quote-box">
+          <p>"Since using this software, they have repeatedly taken additional money. Over $1,300 additional has been taken from our agreed contracted amount."</p>
+          <cite>— BBB complaint</cite>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">1년 안에 해약하면 하드웨어 비용 얼마나 다시 내야 해요?
+              <span class="ko">"If you cancel within a year, how much hardware do you owe back?"</span>
             </div>
+            <div class="trap-why">→ Bar Solita: $14K. Di Pasquale's: $18,150. "Month-to-month" is deceptive if you accepted free hardware.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Did you reprint all your menus with the new prices for Dual Pricing? If not, are you compliant?</div>
+          <div class="trap-item">
+            <div class="trap-q">Dual Pricing로 메뉴 가격 다 바꾸셨어요? 메뉴판도 새로 인쇄하셨어요?
+              <span class="ko">"Did you update your menu prices for Dual Pricing? Did you reprint all physical menus?"</span>
+            </div>
+            <div class="trap-why">→ Most haven't reprinted. That means they're noncompliant and exposed to card network fines they don't know about.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">If SpotOn's platform goes down (not just your internet) — can you still take orders and send tickets to the kitchen?</div>
+          <div class="trap-item">
+            <div class="trap-q">SpotOn 서버가 다운되면 (인터넷 말고) — 그래도 주문 받고 주방에 티켓 보낼 수 있나요?
+              <span class="ko">"If SpotOn's platform goes down — not just your internet — can you still take orders and send tickets to the kitchen?"</span>
+            </div>
+            <div class="trap-why">→ SpotOn offline only covers ISP issues. A SpotOn platform outage = full blackout. Toast stays up regardless.</div>
           </div>
         </div>
 
@@ -693,42 +861,61 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">General-purpose POS for any small business. Common entry point for new restaurant owners — easy to get started, easy to outgrow.</div>
+      <div class="card-tagline">General-purpose POS for any small business. Free entry point attracts new restaurant owners. Documented outages, no weekend support, not built for restaurants. Easy to start, easy to outgrow.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
-          <li>Free tier available — very low barrier to entry</li>
-          <li>Simple, clean UI — easy onboarding (under 15 minutes)</li>
+          <li>Free tier — very low barrier to entry</li>
+          <li>Simple clean UI, onboarding under 15 min</li>
           <li>Month-to-month, no lock-in</li>
           <li>ManagerBot AI assistant</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">NOT BUILT FOR RESTAURANTS — same AI (ManagerBot) whether you're a restaurant or a nail salon. Toast IQ is trained exclusively on restaurant data.</li>
-          <li class="hot-con">TWO UNEXPLAINED RATE HIKES: In 2019 changed 2.75% to 2.6% + $0.10. Appears cheaper but is actually MORE expensive for any bill under $67. Month-to-month = they can do this again anytime.</li>
-          <li class="hot-con">WEEKEND SUPPORT BLACKOUT: Free tier = phone support 6am–6pm PT Mon–Fri only (first 90 days). Plus tier = same hours, no weekends. POS crashes Saturday night? You're on your own.</li>
-          <li>No KDS offline mode — kitchen display goes down if internet drops</li>
-          <li>Hardware not restaurant-grade — built for retail/nail salons, not for kitchen spills and drops</li>
-          <li>Outgrow it fast: works at low volume, falls apart as menus get complex or you open a 2nd location</li>
-          <li>Reporting lacks depth: no modifier-level analysis, no restaurant-specific analytics, no benchmarking</li>
+          <li class="hot-con">DOCUMENTED OUTAGES WITH ZERO COMPENSATION: February 2025 — 2-hour nationwide Square outage. Hundreds of thousands of restaurants couldn't swipe cards or accept online orders. Saint Francis Apizza: $651 in lost sales + $90 in tips. Folklores Coffee House: had to close early. Square's response: "We don't yet have an answer on compensation." No compensation was given.</li>
+          <li class="hot-con">NOT BUILT FOR RESTAURANTS: Same ManagerBot AI whether you're a restaurant or a nail salon. Toast IQ is trained exclusively on restaurant data — labor costs, menu performance, reservation flow, kitchen ops. Square's AI doesn't know the difference between a prix-fixe and a pedicure.</li>
+          <li class="hot-con">WEEKEND SUPPORT BLACKOUT: Free/Plus tier = phone support 6am–6pm PT Monday–Friday ONLY. If your POS crashes at 8pm Saturday — one of the busiest hours of the week — you are completely on your own until Monday morning Pacific time.</li>
+          <li class="hot-con">TWO UNEXPLAINED RATE HIKES: Changed 2.75% flat to 2.6% + $0.10 per transaction in 2019. That change is actually MORE expensive for any ticket under $67. Month-to-month means they can do this again, anytime, with minimal notice.</li>
+          <li>March 2025: six-plus hours of intermittent outages over multiple days (March 5, 9, 10, 14, 15, 17)</li>
+          <li>No KDS offline mode — kitchen display dies when internet drops</li>
+          <li>Hardware not restaurant-grade — same device used for nail salons, retail, food trucks. Not built for spills, drops, rush service heat</li>
+          <li>Reporting missing: no modifier-level analysis, no server performance metrics, no peer benchmarking</li>
+          <li>Outgrows fast: works at low volume, falls apart when menus get complex or you open a 2nd location</li>
           <li>No native payroll — integrations only</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">What's your average ticket size?</div>
-            <div class="gk-why">→ Flat rate is more expensive than IC+ for high-volume/high-ticket restaurants.</div>
-          </div>
-          <div class="gk-item">
-            <div class="gk-q">When your POS goes down on a Saturday night, what's your support option?</div>
-          </div>
-          <div class="gk-item">
-            <div class="gk-q">As your business grows — do you think you'll need to switch POS systems again?
-              <span class="ko">매출 늘면 나중에 다시 POS 바꿔야 할 것 같지 않으세요?</span>
+        <div class="stat-row">
+          <div class="stat-pill">Feb 2025: 2hr nationwide outage</div>
+          <div class="stat-pill">$0 compensation to restaurants</div>
+          <div class="stat-pill">No weekend phone support</div>
+        </div>
+
+        <div class="quote-box">
+          <p>"Right now, we're focused on technical remediation and we don't yet have an answer for you on compensation."</p>
+          <cite>— Square statement after February 2025 outage. They never compensated restaurants.</cite>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">토요일 밤 8시에 POS가 다운되면 지원팀에 전화할 수 있어요?
+              <span class="ko">"If your POS goes down Saturday night at 8pm — can you call someone?"</span>
             </div>
+            <div class="trap-why">→ No. Support is Mon–Fri 6am–6pm PT. Peak restaurant hours are completely uncovered.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">지난번 Square 전국 장애 때 영향받으셨어요? 보상받으셨어요?
+              <span class="ko">"Were you affected by the February 2025 Square outage? Did you get any compensation?"</span>
+            </div>
+            <div class="trap-why">→ No restaurant received compensation. This lands hard with anyone who was hit.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">매출 늘면 나중에 다시 POS 바꿔야 할 것 같지 않으세요?
+              <span class="ko">"As your business grows, do you think you'll need to switch POS systems again?"</span>
+            </div>
+            <div class="trap-why">→ Gets them thinking about total cost of switching twice vs. getting the right system now.</div>
           </div>
         </div>
 
@@ -749,33 +936,38 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">iPad-based POS targeting full-service restaurants and QSR chains. Enterprise focus. Appears in Korean restaurant conversations especially for larger multi-location operators.</div>
+      <div class="card-tagline">iPad POS targeting full-service and QSR chains. Appears in Korean multi-location conversations. Enterprise pitch — hides brutal contract terms until you're already in.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
-          <li>iPad-based, cloud-connected, enterprise-grade features</li>
+          <li>iPad-based, cloud-connected, enterprise-grade</li>
           <li>Strong multi-location management</li>
           <li>Open API — flexible integrations</li>
-          <li>Built for both QSR and full-service restaurants</li>
+          <li>Built for both QSR and full-service</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">3-YEAR CONTRACT TRAP with ETFs of up to $15,000 OR double the remaining contract value — whichever is HIGHER. No way out without a massive penalty.</li>
-          <li class="hot-con">AUTO-RENEWAL DECEPTION: A routine popup during normal POS operations secretly renewed contracts for another 3 years. Customers had no idea until they tried to leave.</li>
-          <li class="hot-con">NICKLE-AND-DIMES: "Cost has gone nowhere but up. While other systems include features, Revel charges extra for everything." — actual customer complaint after 6 years.</li>
-          <li>Must use Revel Advantage (their payment processing) — switching processor adds cost and contract complications</li>
-          <li>Installation is problematic — many customers report Revel installers do a poor job with setup</li>
-          <li>Updates are glitch-heavy — software updates regularly introduce new bugs that weren't tested</li>
-          <li>Post-installation support is weak — long wait times, though agents are knowledgeable once reached</li>
-          <li>Onboarding and training not robust — restaurants are not properly set up</li>
-          <li>Higher entry cost than Toast for comparable restaurant setup</li>
-          <li>BBB shows 9 complaints in past 36 months specifically around deceptive renewal and termination fees</li>
+          <li class="hot-con">3-YEAR CONTRACT, ETF UP TO $15,000 OR 2X REMAINING: Whichever is higher. One restaurant faced a $7,000 cancellation demand from a contract they didn't even know had auto-renewed. Another had ETF start at $3,647, later "reduced" to $2,735.</li>
+          <li class="hot-con">AUTO-RENEWAL POPUP TRAP: A routine-looking confirmation dialog during normal POS operations silently locked customers into another 3-year term. No prior notification, no separate consent screen. "A popup appeared that was actually a renewal trap — locking us in for 3 more years."</li>
+          <li class="hot-con">CINNAHOLIC SUED REVEL FOR "DEBILITATING OUTAGES": A 90-unit franchise sued Revel for breach of contract — bugs, integration failures, and "routinely failing" POS across their entire chain. This is on the public record.</li>
+          <li class="hot-con">NICKLE-AND-DIME CONFIRMED: "The cost has gone nowhere but up for 6 years. While other systems include features, Revel charges extra for everything." — Verified customer, 6-year user.</li>
+          <li>Must use Revel Advantage payment processing — switching processors adds cost and contract complications</li>
+          <li>Installation quality varies significantly — many customers report Revel installers doing poor setup work</li>
+          <li>Software updates regularly introduce new bugs — testing before release is weak</li>
+          <li>Support: long wait times to reach someone; agents knowledgeable when reached, but getting there is the problem</li>
+          <li>9 BBB complaints specifically around deceptive renewal and termination fees in past 36 months</li>
         </ul>
 
+        <div class="stat-row">
+          <div class="stat-pill">ETF up to $15K or 2x remaining</div>
+          <div class="stat-pill">Franchise lawsuit (Cinnaholic)</div>
+          <div class="stat-pill">9 BBB deceptive renewal complaints</div>
+        </div>
+
         <div class="quote-box">
-          <p>"I've had Revel for almost 6 years and the cost has gone nowhere but up. While other systems have integrated solutions included in software costs, Revel nickels and dimes you to death."</p>
+          <p>"I've had Revel for almost 6 years and the cost has gone nowhere but up. While other systems have integrated solutions, Revel nickels and dimes you to death."</p>
           <cite>— Verified customer review</cite>
         </div>
         <div class="quote-box">
@@ -783,18 +975,19 @@
           <cite>— BBB complaint</cite>
         </div>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">What happens if you want to cancel? What's your early termination fee?</div>
-            <div class="gk-why">→ Up to $15,000 or 2x remaining contract. Most owners don't know this until it's too late.</div>
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">"What's your early termination fee if you want to leave?"</div>
+            <div class="trap-why">→ Up to $15,000 or 2x remaining contract. Most owners have absolutely no idea.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Have you clicked any popup confirmations in your POS recently? Do you know if your contract auto-renewed?</div>
-            <div class="gk-why">→ The popup renewal trap is documented and real. This could genuinely shock someone locked in.</div>
+          <div class="trap-item">
+            <div class="trap-q">"Have you clicked any confirmation popups in your POS recently? Do you know if your contract auto-renewed?"</div>
+            <div class="trap-why">→ The popup trap is documented. This could genuinely shock someone who unknowingly clicked through.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Beyond your base monthly cost — what are you paying extra for each month in add-ons?</div>
+          <div class="trap-item">
+            <div class="trap-q">"Beyond your base monthly cost — what are you paying extra for each month?"</div>
+            <div class="trap-why">→ "Nickels and dimes you to death" — real 6-year customer quote. Get them to list every add-on.</div>
           </div>
         </div>
 
@@ -815,7 +1008,7 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Owned by Fiserv (bank/payments company). General-purpose POS — same hardware for nail salons, retail, restaurants. App marketplace model means you pay for everything separately.</div>
+      <div class="card-tagline">Owned by Fiserv (bank). General-purpose POS for any small business — nail salons, retail, restaurants all get the same hardware. App marketplace = fee stacking. Not built for restaurants.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
@@ -827,24 +1020,35 @@
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">OWNED BY A BANK (Fiserv) — not a restaurant company. Restaurant features are bolted on afterthought. The system is designed to maximize payment processing revenue, not restaurant operations.</li>
-          <li class="hot-con">FEE STACKING: POS + online ordering + loyalty + payroll + marketing all separate monthly charges. What looks cheap becomes very expensive.</li>
-          <li>Long-term contracts with steep early termination fees reported across multiple review platforms</li>
-          <li>CCP rates opaque — IC+ often not offered, flat rate hurts high-volume restaurants</li>
-          <li>App marketplace = key features require third-party apps with their own monthly fees</li>
-          <li>Hardware is not restaurant-grade (identical hardware used for nail salons, retail shops, etc.)</li>
-          <li>Customer service routed through ISOs/resellers — not direct support</li>
+          <li class="hot-con">OWNED BY A BANK: Fiserv is a payments and banking company. The POS is secondary to maximizing card processing revenue. Restaurant features are afterthoughts — the system is designed to capture transaction fees, not run your kitchen.</li>
+          <li class="hot-con">FEE STACKING: Hidden fees confirmed — PCI compliance ($9.95–$10/mo), statement fees ($5–$15/mo), platform access fees ($27.95/mo), commonly add $100–$200/month per location ON TOP of base cost. In 2025, legacy hardware triggers a $99.95/month per-device penalty if you don't upgrade.</li>
+          <li class="hot-con">EQUIPMENT LEASE TRAP: A Clover Station that costs $1,800 to buy outright can be leased for $4,000–$6,000 over 48 months — and the lease typically cannot be cancelled even if you close your business. Customers have been stuck paying for hardware they can't use.</li>
+          <li class="hot-con">VERIFIED CUSTOMER: "After customers finally got ahold of someone, Clover told them the only way out of the contract is to pay $12,000." Another: "We can't use the Clover System but they won't let us out of the lease — paying $40+/month for something we can't use."</li>
+          <li>Cancellation takes 2–4 weeks minimum, often 2–3 months of back-and-forth</li>
+          <li>App marketplace = key features require 3rd party apps with their own monthly fees. Online ordering, loyalty, payroll all separate costs.</li>
+          <li>Hardware identical across nail salons, retail, food trucks, restaurants — not restaurant-grade durability</li>
+          <li>Support routed through ISOs/resellers — not direct Clover support. Quality is inconsistent.</li>
+          <li>CCP rates often opaque — IC+ frequently not offered, flat rate hurts high-volume restaurants significantly</li>
+          <li>2024: settled TCPA class-action lawsuit over unauthorized promotional text messages</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">How much are you paying monthly in total — including all the apps you've added?
-              <span class="ko">지금 월에 얼마 내고 계세요 소프트웨어 비용으로?</span>
+        <div class="stat-row">
+          <div class="stat-pill">$12K contract exit confirmed</div>
+          <div class="stat-pill">$100–200/mo hidden fees</div>
+          <div class="stat-pill">48-month hardware lease trap</div>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">지금 월에 얼마 내고 계세요 — 소프트웨어, 앱, 수수료 다 합쳐서요?
+              <span class="ko">"How much are you paying monthly — software, all the apps, all the fees combined?"</span>
             </div>
+            <div class="trap-why">→ The stacked total is always worse than they think. Get them to add it up themselves.</div>
           </div>
-          <div class="gk-item">
-            <div class="gk-q">Do you know who to call at midnight if your POS crashes on a Saturday?</div>
+          <div class="trap-item">
+            <div class="trap-q">"Is your hardware purchased or leased? What happens to the lease if you close or switch?"</div>
+            <div class="trap-why">→ Leases can't be cancelled. Owners are often locked in paying for hardware even after they've switched systems.</div>
           </div>
         </div>
 
@@ -865,31 +1069,42 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Started as a retail POS. Restaurant features added later. Claims K-Series is restaurant-grade — it's not compared to Toast's depth.</div>
+      <div class="card-tagline">Started as a retail POS for clothing stores. Restaurant features (K-Series) added later. Now penalizing restaurants that don't use Lightspeed's payment processor with fees up to $910/month.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
         <ul class="pros-list">
           <li>K-Series for restaurants (cloud-based)</li>
           <li>Strong reporting and analytics</li>
-          <li>Known brand globally</li>
+          <li>Global brand recognition</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">BUILT FOR RETAIL FIRST — started as a retail POS. Restaurant features were added as an afterthought. Toast was built for restaurants from day one.</li>
-          <li>Complex pricing tiers — total cost often higher than advertised</li>
-          <li>Limited US restaurant market share vs. Toast's #1 position</li>
-          <li>No native payroll — requires third-party integrations</li>
-          <li>Offline reliability weaker than Toast</li>
-          <li>No MLM depth at scale</li>
+          <li class="hot-con">PROCESSOR LOCK-IN FEE: Starting Feb 2025, restaurants using non-Lightspeed payment processing are now charged a transaction fee. One customer was hit with $910/month for using their own processor — a fee introduced after they had already pre-paid a full year subscription.</li>
+          <li class="hot-con">BUILT FOR RETAIL FIRST: Lightspeed started as a clothing store POS. Restaurant features were bolted on. Toast was built exclusively for restaurants from day one — you can feel the difference in the product depth.</li>
+          <li>Complex pricing tiers — add-ons for online ordering, inventory, loyalty quickly double the bill</li>
+          <li>BBB complaints focused on refusal to provide cancellation cost breakdowns and ignoring third-party inquiries</li>
+          <li>Limited US restaurant market share — Toast is #1; Lightspeed is a distant niche player</li>
+          <li>No native payroll — third-party integrations required</li>
+          <li>Offline reliability weaker than Toast in documented tests</li>
+          <li>No MLM at scale for complex restaurant groups</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Did you know Lightspeed started as a retail system for clothing stores? Not restaurants?</div>
-            <div class="gk-why">→ Plant the seed that they're using a system that wasn't built for them.</div>
+        <div class="stat-row">
+          <div class="stat-pill warn">$910/mo processor fee confirmed</div>
+          <div class="stat-pill">Retail-first architecture</div>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">"Are you using Lightspeed's payment processing, or your own? Do you know what you're paying if you use a different processor?"</div>
+            <div class="trap-why">→ Up to $910/month in new fees for using a non-Lightspeed processor. Most restaurants don't know this until they get the bill.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">"Did you know Lightspeed started as a retail POS for clothing stores — not restaurants?"</div>
+            <div class="trap-why">→ Plants the seed that they're running on a system that wasn't built for them.</div>
           </div>
         </div>
 
@@ -910,7 +1125,7 @@
           </div>
         </div>
       </div>
-      <div class="card-tagline">Shift4 is primarily a payments company — the POS is secondary. Acquired Appetize (sports/entertainment) and part of SpotOn's enterprise unit. Not restaurant-focused.</div>
+      <div class="card-tagline">Shift4 is primarily a payments company for hotels and stadiums — the POS is secondary. Rate hikes documented in late 2025. Liquidated damages clause can trap high-volume restaurants.</div>
       <div class="card-body">
 
         <div class="section-label">What They Claim</div>
@@ -918,21 +1133,36 @@
           <li>Competitive processing rates</li>
           <li>Integrated payments (PayFac)</li>
           <li>Enterprise-level scale</li>
+          <li>High Trustpilot rating (4.8/5)</li>
         </ul>
 
         <div class="section-label">Weaknesses &amp; Ammo</div>
         <ul class="cons-list">
-          <li class="hot-con">PAYMENTS COMPANY, NOT A RESTAURANT COMPANY — the POS is an afterthought. Their core DNA is payment processing, not restaurant operations.</li>
-          <li>Complex fee structures with unclear interchange details</li>
-          <li>Hardware and software not as deeply integrated as Toast</li>
-          <li>No native payroll, scheduling, or marketing — all third-party</li>
-          <li>Support quality tied to reseller network — not direct like Toast</li>
+          <li class="hot-con">LIQUIDATED DAMAGES CLAUSE: For restaurants doing $50K/month in processing, trying to exit at month 13 of a contract can trigger $37,500 in fees. The formula: remaining months × average monthly fees × (1 + profit margin). Most restaurants sign without understanding this clause.</li>
+          <li class="hot-con">RATE HIKES IN LATE 2025: Shift4 hit merchants with multiple rounds of fee increases to close out 2025. One billing error resulted in a $2,235 overcharge in a single month from a mis-calculated surcharge.</li>
+          <li class="hot-con">$360/YEAR PER DEVICE HARDWARE SUBSCRIPTION: The $29.99/month subscription is essentially a hardware lease — for a device you could buy outright for under $250. You're paying ~44% annual premium just to use the terminal.</li>
+          <li>Payments company first, restaurant company second — core DNA is hotel/stadium processing. Restaurant features are not their primary focus.</li>
+          <li>Reports of bugs with Advantage, Dual Charges, Tax Calculations, Gift Cards, Handhelds, and Reporting</li>
+          <li>Support wait times reported as problematic — hour-long calls before giving up or calling back</li>
+          <li>No native payroll, scheduling, or marketing tools — all third-party</li>
+          <li>Support quality tied to reseller network, not direct Shift4 support</li>
         </ul>
 
-        <div class="golden-key-box">
-          <div class="golden-key-header"><span>🔑</span><strong>Golden Key Questions</strong></div>
-          <div class="gk-item">
-            <div class="gk-q">Did you know Shift4's main business is processing hotel payments and stadium payments — not restaurants?</div>
+        <div class="stat-row">
+          <div class="stat-pill">$37,500 exit fee example</div>
+          <div class="stat-pill">$2,235 billing overcharge confirmed</div>
+          <div class="stat-pill">Multiple 2025 rate hikes</div>
+        </div>
+
+        <div class="trap-box">
+          <div class="trap-box-header"><span>💀</span><strong>Trap Questions</strong></div>
+          <div class="trap-item">
+            <div class="trap-q">"Have you read the liquidated damages clause in your Shift4 contract? Do you know what you'd owe if you tried to leave?"</div>
+            <div class="trap-why">→ At $50K/month processing, exiting at month 13 could cost $37,500. Most restaurant owners have no idea this clause exists.</div>
+          </div>
+          <div class="trap-item">
+            <div class="trap-q">"Did you know Shift4's main business is processing payments for hotels and stadiums — not restaurants?"</div>
+            <div class="trap-why">→ Their restaurant product is not their core focus. You're not their priority customer.</div>
           </div>
         </div>
 
@@ -943,309 +1173,258 @@
 </div><!-- /panel-western -->
 
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!--  PANEL 3 — GOLDEN KEY (MASTER LIST)                    -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<div class="panel" id="panel-goldkey">
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 3 — TRAP QUESTIONS (MASTER)         -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="panel" id="panel-trapqs">
 
   <div style="margin-bottom:20px;">
-    <h2 style="font-size:18px;font-weight:800;margin-bottom:6px;">🔑 Golden Key — Master Question Bank</h2>
-    <p style="font-size:12px;color:#666;">These are the questions that expose the truth. Ask them before they ask you. Each one opens a wound the competitor can't close.</p>
+    <h2 style="font-size:18px;font-weight:800;margin-bottom:6px;">💀 Trap Questions — Master Bank</h2>
+    <p style="font-size:12px;color:#666;">These are the questions that make competitors implode. Ask them before they ask you. Each one surfaces a wound the competitor can't close in the conversation.</p>
   </div>
 
-  <div class="gk-master-grid">
+  <div class="tq-grid">
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>Peblla</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>Peblla</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">Do you have more than one location?</div>
-            <div class="ko">체인이나 분점이 있으세요? 각 지점마다 손님이 앱을 따로 받아야 하는 거 알고 계셨어요?</div>
-            <div class="why">→ Peblla's app doesn't support cross-location ordering. Each location = separate app download. Destroys chain UX.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">Have you ever had an order placed on the app that the kitchen never received?</div>
-            <div class="ko">손님이 앱에서 주문했는데 식당에서 못 받은 적 있으세요?</div>
-            <div class="why">→ Confirmed system bug. Missed orders = lost money. If they've seen it, the conversation shifts immediately.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">3</div>
-          <div class="gk-text">
-            <div class="q">Have customers ever told you their order confirmation text was garbled or didn't make sense?</div>
-            <div class="ko">손님한테서 주문 확인 문자가 이상하다고 연락 온 적 있어요?</div>
-            <div class="why">→ Confirmed bug: Peblla sends garbled SMS confirmations. Embarrassing and unprofessional for the owner.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">4</div>
-          <div class="gk-text">
-            <div class="q">What's your exact processing rate? Can I see your contract?</div>
-            <div class="ko">정확히 몇 퍼센트 수수료예요? 계약서 보셨어요?</div>
-            <div class="why">→ Peblla has no public pricing page. Rates are hidden until sales call. Creates doubt.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">5</div>
-          <div class="gk-text">
-            <div class="q">Your loyalty program — has any customer actually redeemed their points?</div>
-            <div class="ko">포인트 실제로 사용한 손님 있으세요? 기준이 너무 높지 않나요?</div>
-            <div class="why">→ Redemption threshold is so high that customers can never actually use points. Loyalty is theater.</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">분점이 있으세요? 각 지점마다 손님이 앱을 따로 받아야 하는 거 알고 계셨어요?</div>
+          <div class="ko">"Do you have multiple locations? Did you know each location needs a separate app download?"</div>
+          <div class="why">→ Destroys multi-location operators immediately. Their branded app doesn't support cross-location ordering.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">손님이 앱으로 주문했는데 식당에서 못 받은 적 있으세요?</div>
+          <div class="ko">"Has a customer ever placed an order that the kitchen never received?"</div>
+          <div class="why">→ Confirmed system bug. Missed orders = lost revenue. Gets them talking if they've seen it.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">포인트 실제로 쓴 손님 계세요? 기준이 얼마예요?</div>
+          <div class="ko">"Has any customer actually redeemed loyalty points? What's the threshold?"</div>
+          <div class="why">→ Threshold is so high no one ever redeems. Loyalty program is marketing theater.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>SpotOn</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>Golden Key POS</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">If you cancel within a year, how much do you owe back on that "free" hardware?</div>
-            <div class="ko">1년 안에 해약하면 하드웨어 비용 얼마나 다시 내야 해요?</div>
-            <div class="why">→ Bar Solita: $14,000. Di Pasquale's: $18,150. These are real numbers from real restaurants.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">Did you reprint all your menus after switching to Dual Pricing?</div>
-            <div class="why">→ Failure to reprint = noncompliant. Card network fines can be significant.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">3</div>
-          <div class="gk-text">
-            <div class="q">If SpotOn's platform goes down (not just your internet) — can you still take orders?</div>
-            <div class="why">→ SpotOn's offline mode only covers ISP outages. A SpotOn platform outage = full blackout. Toast stays up.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">4</div>
-          <div class="gk-text">
-            <div class="q">Normally SpotOn adds a 0.20% platform fee on your monthly volume — are they waiving that for you?</div>
-            <div class="why">→ At $100K/mo processing, that's $200/mo invisible. Most owners don't know about it.</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">지금 처리 수수료가 Golden Key TPS 통해서 나가고 있죠? 다른 프로세서로 바꾸면 어떻게 되나요?</div>
+          <div class="ko">"Your processing runs through Golden Key TPS, right? What happens if you want to switch processors?"</div>
+          <div class="why">→ They're bundled. Switching processor likely means leaving the POS. Most owners don't know this.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">Mirakey 실제로 쓰고 있는 식당 레퍼런스 있나요?</div>
+          <div class="ko">"Can they give you references of restaurants actually running Mirakey right now?"</div>
+          <div class="why">→ Just launched. No real references exist. Running beta software on your live restaurant.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">Golden Key POS 후기 온라인에서 찾아보셨어요?</div>
+          <div class="ko">"Did you research Golden Key POS online before signing? Were there any independent reviews?"</div>
+          <div class="why">→ Almost none exist. 25-year-old company with no public reviews is a red flag, not a feature.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>Revel Systems</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>KwickPOS</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">What's your early termination fee?</div>
-            <div class="why">→ Up to $15,000 OR double the remaining contract value. Most owners have no idea.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">Have you clicked any popup confirmations in your POS recently?</div>
-            <div class="why">→ Documented deceptive tactic: a popup during normal POS use secretly renewed contracts for 3 more years.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">3</div>
-          <div class="gk-text">
-            <div class="q">What add-ons are you paying for monthly that weren't in your original quote?</div>
-            <div class="why">→ "Nickels and dimes you to death" — real customer quote after 6 years.</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">손님이 카드로 결제했는데 환불 요청하면 어떻게 처리하세요?</div>
+          <div class="ko">"If a customer paid by card and wants a refund, how do you process it?"</div>
+          <div class="why">→ KwickPOS can't issue card refunds. They pay in cash and absorb the card fees. Most owners don't know until it happens.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">주방 전송 기능 오류 경험해보셨어요? 하루에 몇 번이나요?</div>
+          <div class="ko">"Has your kitchen send function ever glitched? How often?"</div>
+          <div class="why">→ Confirmed daily occurrence for some users. If they haven't seen it, they will.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">문제 생겼을 때 기술 지원팀이 얼마나 빨리 대응했어요?</div>
+          <div class="ko">"When something went wrong, how fast did tech support respond?"</div>
+          <div class="why">→ Support is the #1 complaint. One owner had critical errors unresolved for 55 consecutive days.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>Chowbus</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>SpotOn</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">Do your Korean staff use the POS comfortably — or is the UI all in Chinese?</div>
-            <div class="ko">한국 직원들이 POS 쓰는 데 불편함 없어요? 인터페이스 다 중국어 아닌가요?</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">When a delivery order comes in and your menu hasn't synced yet — what happens?</div>
-            <div class="ko">배달 주문 들어왔을 때 메뉴가 실시간 반영이 안 되면 어떻게 하세요?</div>
-            <div class="why">→ 30-minute sync lag is confirmed. Orders come in for items already sold out.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">3</div>
-          <div class="gk-text">
-            <div class="q">Can I see your monthly statement? I'll calculate what you're actually paying vs. what you were quoted.</div>
-            <div class="ko">명세서 보여주시면 실제 수수료 계산해 드릴게요.</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">1년 안에 해약하면 하드웨어 비용 얼마나 다시 내야 해요?</div>
+          <div class="ko">"If you cancel within a year, how much hardware do you owe back?"</div>
+          <div class="why">→ Bar Solita: $14K. Di Pasquale's: $18,150. "Month-to-month" is fiction if you accepted free hardware.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">Dual Pricing로 메뉴판 새로 인쇄하셨어요?</div>
+          <div class="ko">"Did you reprint all physical menus after switching to Dual Pricing?"</div>
+          <div class="why">→ Most haven't. That's a card network compliance violation with real fine exposure.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">SpotOn 플랫폼 자체가 다운되면 — 인터넷 말고 — 주문 받을 수 있나요?</div>
+          <div class="ko">"If SpotOn's platform goes down — not your internet — can you still take orders?"</div>
+          <div class="why">→ SpotOn offline only covers ISP outages. Platform outage = full blackout. Toast is fully offline-capable.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>Menusifu</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>Revel Systems</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">Have your delivery platform reviews disappeared or decreased since switching?</div>
-            <div class="ko">배달 앱에서 리뷰가 갑자기 사라진 적 있으세요?</div>
-            <div class="why">→ Menusifu's 3PO is confirmed to strip restaurant reviews off DoorDash/Yelp. Direct reputation damage.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">Can I see your monthly statement? There's typically a $90 hidden fee that never gets disclosed.</div>
-            <div class="ko">명세서 보여주시면 수수료 계산해 드릴까요? $90 숨겨진 수수료가 있는 경우가 많아요.</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">"What's your early termination fee if you want to leave?"</div>
+          <div class="why">→ Up to $15,000 or 2x remaining contract value. Most owners have no idea.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">"Have you clicked any confirmation popups in your POS recently? Do you know if your contract auto-renewed?"</div>
+          <div class="why">→ The popup renewal trap is documented and real. BBB has 9 complaints specifically about this.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">"What are you paying extra for each month beyond your base cost?"</div>
+          <div class="why">→ "Nickels and dimes you to death" — real 6-year customer quote. Revel charges extra for everything competitors bundle in.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>JK POS</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>Chowbus</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">When a delivery order comes in, do you manually type it into the POS? How many times a day?</div>
-            <div class="ko">배달 주문 들어오면 지금 수동으로 입력하세요? 하루에 몇 번이나요?</div>
-            <div class="why">→ Calculate the labor cost of manual entry. Even 20 orders/day at 2 minutes each = ~$400/month in wasted labor.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">Last time you needed to change your menu — did you have to call someone to do it?</div>
-            <div class="ko">메뉴 바꿀 때마다 전화해서 부탁하세요?</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">한국 직원들이 POS 쓰는 데 불편함 없어요? 인터페이스가 다 중국어 아닌가요?</div>
+          <div class="ko">"Are your Korean staff comfortable on it? Isn't the UI in Chinese?"</div>
+          <div class="why">→ All-Chinese interface is a real daily operational problem in Korean restaurants.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">배달 주문 들어왔을 때 메뉴가 실시간 반영이 안 되면 어떻게 하세요?</div>
+          <div class="ko">"When a delivery order comes in and your menu hasn't synced — what do you do?"</div>
+          <div class="why">→ 30-minute sync lag means sold-out items keep being ordered during rush.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">명세서 보여주시면 실제 수수료 계산해 드릴게요.</div>
+          <div class="ko">"Can I see your monthly statement? I'll calculate what you're really paying."</div>
+          <div class="why">→ Hidden fee of ~35% tip/fee skimming has been confirmed. The number is always worse than expected.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>Sinah / Aldelo</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>Menusifu</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">Is your contract with Sinah or with Aldelo directly?</div>
-            <div class="ko">현재 POS 계약이 Sinah랑 하신 건가요, Aldelo 본사랑 하신 건가요?</div>
-            <div class="why">→ Most owners don't know. Creates accountability doubt.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">How many terminals do you have? At $99/device/month — what's your monthly license cost?</div>
-            <div class="ko">터미널이 몇 개예요? 기기당 월 $99이면 총 얼마예요?</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">배달 앱에서 리뷰가 갑자기 사라진 적 있으세요?</div>
+          <div class="ko">"Have your delivery platform reviews disappeared since switching?"</div>
+          <div class="why">→ Their 3PO is confirmed to strip DoorDash/Yelp reviews. Direct hit to reputation and revenue.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">명세서 보여주시면 수수료 계산해 드릴까요? $90 숨겨진 수수료가 있는 경우가 많아요.</div>
+          <div class="ko">"Can I see your statement? There's typically a $90 hidden fee that's never disclosed."</div>
+          <div class="why">→ Calling it out before they show you is a power move. Confirms your intel and puts them on the defensive.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>Square</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>JK POS</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">When your POS goes down on a Saturday night — what's your support option?</div>
-            <div class="why">→ Free/Plus = no phone support on weekends. If it breaks Friday at midnight, you wait until Monday 6am PT.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">As your volume grows — do you think Square will still work the same way?</div>
-            <div class="ko">매출 늘면 나중에 다시 POS 바꿔야 할 것 같지 않으세요?</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">배달 주문 들어오면 지금 수동으로 입력하세요? 하루에 몇 번이나요?</div>
+          <div class="ko">"When a delivery order comes in, do you type it in manually? How many times a day?"</div>
+          <div class="why">→ Then calculate: 20 orders × 2 min × $15/hr = $400+/month in pure manual labor waste.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">메뉴 바꿀 때마다 전화해서 부탁하세요?</div>
+          <div class="ko">"Last time you changed your menu — did you have to call someone to do it?"</div>
+          <div class="why">→ In 2025, calling a rep to change a menu price is absurd. Let them say it out loud.</div>
+        </div></div>
       </div>
     </div>
 
-    <div class="gk-master-card">
-      <div class="card-top">
-        <h3>BLUU</h3>
-        <span class="key-icon">🔑</span>
-      </div>
+    <div class="tq-card">
+      <div class="card-top"><h3>Sinah / Aldelo</h3><span class="icon">💀</span></div>
       <div class="card-content">
-        <div class="gk-step">
-          <div class="gk-num">1</div>
-          <div class="gk-text">
-            <div class="q">Can you give me 3 restaurant references currently happy on BLUU?</div>
-            <div class="ko">지금 BLUU 쓰고 있는 식당 레퍼런스 3군데만 소개받을 수 있을까요?</div>
-            <div class="why">→ Tiny install base. They can't produce references. Silence is the answer.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">2</div>
-          <div class="gk-text">
-            <div class="q">If BLUU stops operating next year — what happens to your data?</div>
-            <div class="ko">BLUU가 내년에 없어지면 POS 데이터 어떻게 되나요?</div>
-            <div class="why">→ Toast is NYSE-listed. BLUU has no institutional backing. Existential risk is real.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">3</div>
-          <div class="gk-text">
-            <div class="q">Did you research BLUU online before signing? What reviews did you find?</div>
-            <div class="ko">계약 전에 BLUU 인터넷에서 찾아보셨어요? 후기가 있던가요?</div>
-            <div class="why">→ There are almost none. The moment they realize it, the seed of doubt is planted.</div>
-          </div>
-        </div>
-        <div class="gk-step">
-          <div class="gk-num">4</div>
-          <div class="gk-text">
-            <div class="q">Can you update your menu from your phone right now?</div>
-            <div class="ko">지금 핸드폰으로 메뉴 바로 수정 가능하세요?</div>
-            <div class="why">→ Windows-based POS = no. Immediately exposes the legacy architecture to anyone who knows Toast can do this instantly.</div>
-          </div>
-        </div>
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">현재 POS 계약이 Sinah랑 하신 건가요, Aldelo 본사랑 하신 건가요?</div>
+          <div class="ko">"Is your contract with Sinah or with Aldelo directly?"</div>
+          <div class="why">→ Most owners don't know. Creates immediate accountability doubt.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">터미널이 몇 개예요? 기기당 월 $99이면 총 얼마예요?</div>
+          <div class="ko">"How many terminals? At $99/device/month — what's your total monthly license cost?"</div>
+          <div class="why">→ 3 terminals = $297/mo in licenses alone. Most owners have never calculated this.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">담당자 분이 내일 회사 그만두면 누구한테 연락하세요?</div>
+          <div class="ko">"If your Sinah rep left tomorrow — who would you call?"</div>
+          <div class="why">→ The "my guy" dynamic collapses when they realize support is person-dependent, not company-backed.</div>
+        </div></div>
       </div>
     </div>
 
-  </div><!-- /gk-master-grid -->
-</div><!-- /panel-goldkey -->
+    <div class="tq-card">
+      <div class="card-top"><h3>Square</h3><span class="icon">💀</span></div>
+      <div class="card-content">
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">토요일 밤에 POS가 다운되면 지원팀에 전화할 수 있어요?</div>
+          <div class="ko">"If your POS goes down Saturday night — can you call support?"</div>
+          <div class="why">→ No. Free/Plus = Mon–Fri 6am–6pm PT only. Saturday peak hours are completely uncovered.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">지난번 Square 전국 장애 때 영향받으셨어요? 보상받으셨어요?</div>
+          <div class="ko">"Were you affected by the February 2025 Square outage? Did you get compensated?"</div>
+          <div class="why">→ No restaurant received compensation. Square's official response was "we don't have an answer on that yet."</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">매출 늘면 나중에 다시 POS 바꿔야 할 것 같지 않으세요?</div>
+          <div class="ko">"As your business grows, do you think you'll need to switch POS systems again?"</div>
+          <div class="why">→ Gets them calculating total cost of switching twice vs. getting the right system now.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="tq-card">
+      <div class="card-top"><h3>BLUU</h3><span class="icon">💀</span></div>
+      <div class="card-content">
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">지금 BLUU 쓰고 있는 식당 레퍼런스 3군데만 소개받을 수 있을까요?</div>
+          <div class="ko">"Can you give me 3 restaurant references currently happy on BLUU?"</div>
+          <div class="why">→ Tiny install base. They can't produce references. Silence is the answer.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">지금 핸드폰으로 메뉴 바로 수정 가능하세요?</div>
+          <div class="ko">"Can you update your menu from your phone right now?"</div>
+          <div class="why">→ Windows-based = no. Exposes the legacy architecture to anyone who knows modern POS can do this instantly.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">3</div><div class="tq-text">
+          <div class="q">BLUU가 없어지면 식당 데이터 어떻게 되나요?</div>
+          <div class="ko">"If BLUU stops operating — what happens to your restaurant data?"</div>
+          <div class="why">→ Toast is NYSE-listed. BLUU has no institutional backing. Existential vendor risk is real.</div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="tq-card">
+      <div class="card-top"><h3>Clover</h3><span class="icon">💀</span></div>
+      <div class="card-content">
+        <div class="tq-step"><div class="tq-num">1</div><div class="tq-text">
+          <div class="q">지금 월에 얼마 내고 계세요 — 소프트웨어, 앱, 수수료 다 합쳐서요?</div>
+          <div class="ko">"How much are you paying monthly — all software, apps, and fees combined?"</div>
+          <div class="why">→ The stacked total is always worse than they think. Get them to add it up themselves.</div>
+        </div></div>
+        <div class="tq-step"><div class="tq-num">2</div><div class="tq-text">
+          <div class="q">"Is your hardware purchased outright or leased? What happens to the lease if you close or switch?"</div>
+          <div class="why">→ Leases can't be cancelled. Owners pay for hardware they can't use — verified $12K exit cost confirmed.</div>
+        </div></div>
+      </div>
+    </div>
+
+  </div><!-- /tq-grid -->
+</div><!-- /panel-trapqs -->
 
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!--  PANEL 4 — KILL SHEET                                  -->
-<!-- ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 4 — KILL SHEET                      -->
+<!-- ═══════════════════════════════════════════ -->
 <div class="panel" id="panel-killsheet">
   <div class="kill-table-wrap">
     <h2>⚔️ Quick Kill Sheet — Korean Restaurant Context</h2>
@@ -1260,63 +1439,73 @@
       <tbody>
         <tr>
           <td class="comp-name">🔥 Peblla</td>
-          <td><span class="weakness-tag">Multi-location app failure</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Each location = separate app. System bugs: missed orders, garbled SMS.</span></td>
+          <td><span class="weakness-tag">Multi-location app failure</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Confirmed bugs: missed orders, garbled SMS. Hidden pricing.</span></td>
           <td class="kill-q">체인점이시면 각 지점마다 앱 따로 받아야 하는 거 알고 계세요?<span class="kill-ko">"Do you have multiple locations? Did you know each needs a separate app download?"</span></td>
         </tr>
         <tr>
+          <td class="comp-name">🔑 Golden Key POS</td>
+          <td><span class="weakness-tag">Processing lock-in + unproven Mirakey</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Started as credit card company. No public reviews. ~50 employees.</span></td>
+          <td class="kill-q">Golden Key TPS 통해서 수수료 나가죠? 다른 프로세서로 바꾸면 어떻게 돼요?<span class="kill-ko">"Your processing runs through Golden Key TPS — what happens if you want to switch processors?"</span></td>
+        </tr>
+        <tr>
+          <td class="comp-name">KwickPOS</td>
+          <td><span class="weakness-tag">Daily kitchen glitches + no CC refunds</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Menu setup disasters. Support disappears. 55-day unresolved bug confirmed.</span></td>
+          <td class="kill-q">손님이 카드로 결제했는데 환불 요청하면 어떻게 처리하세요?<span class="kill-ko">"If a customer paid by card and wants a refund — how do you process it?"</span></td>
+        </tr>
+        <tr>
           <td class="comp-name">Chowbus</td>
-          <td><span class="weakness-tag">Sold delivery biz + Chinese UI</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Unstable 3PD sync, heavy iPad, cancellation penalties</span></td>
+          <td><span class="weakness-tag">Sold delivery biz + Chinese-only UI</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Unstable 3PD sync, 35% hidden fee/tip skimming confirmed.</span></td>
           <td class="kill-q">명세서 보여주시면 실제 수수료 계산해드릴게요.<span class="kill-ko">"Can I see your statement? I'll calculate what you're really paying."</span></td>
         </tr>
         <tr>
           <td class="comp-name">Menusifu</td>
-          <td><span class="weakness-tag">3PO removes your reviews</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">$90 hidden fee. C+ BBB. China-based CS.</span></td>
+          <td><span class="weakness-tag">3PO strips your delivery reviews</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">$90 hidden fee. BBB C+. Bait-and-switch contract confirmed.</span></td>
           <td class="kill-q">3PD 리뷰가 사라진 적 있으세요?<span class="kill-ko">"Have your delivery platform reviews disappeared since switching?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">JK POS</td>
-          <td><span class="weakness-tag">No 3PD, manual entry</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Legacy Windows, no cloud, no handheld</span></td>
+          <td><span class="weakness-tag">Zero 3PD integration, manual order entry</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Legacy Windows, no cloud, no handheld, $1/online order fee.</span></td>
           <td class="kill-q">배달 주문 지금 수동으로 입력하세요?<span class="kill-ko">"Do you manually type in delivery orders right now?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">Sinah</td>
-          <td><span class="weakness-tag">Aldelo reseller, no ownership</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">$99/device/license, legacy hardware $20K+</span></td>
+          <td><span class="weakness-tag">Aldelo reseller, no product ownership</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">$99/device/license. "My guy" inertia hiding real costs.</span></td>
           <td class="kill-q">계약이 Sinah랑이에요, Aldelo랑이에요?<span class="kill-ko">"Is your contract with Sinah or with Aldelo directly?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">BLUU</td>
-          <td><span class="weakness-tag">No market presence</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Legacy Windows, zero independent reviews</span></td>
-          <td class="kill-q">레퍼런스 고객 소개받을 수 있을까요?<span class="kill-ko">"Can you give me 3 customer references currently using BLUU?"</span></td>
+          <td><span class="weakness-tag">Zero public reviews, legacy Windows</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">No institutional backing. Existential vendor risk.</span></td>
+          <td class="kill-q">레퍼런스 고객 3군데 소개받을 수 있을까요?<span class="kill-ko">"Can you give me 3 restaurant references currently using BLUU?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">SpotOn</td>
-          <td><span class="weakness-tag">Hidden fees + hardware trap</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">No MLM, no true offline, fake "free" CCP</span></td>
+          <td><span class="weakness-tag">Hardware clawback + hidden fees + ACH</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">No real offline. No MLM. Fake "free" CCP. 13 BBB complaints.</span></td>
           <td class="kill-q">1년 안에 해약하면 하드웨어 비용 다시 내야 하는 거 아세요?<span class="kill-ko">"If you cancel within a year, how much hardware do you owe back?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">Revel</td>
-          <td><span class="weakness-tag">3-year contract + $15K ETF</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Auto-renewal popup trap. Nickels and dimes.</span></td>
-          <td class="kill-q">"What's your early termination fee?" / "Have you clicked any popups in your POS recently?"</td>
+          <td><span class="weakness-tag">3-year contract, $15K ETF, popup trap</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Cinnaholic sued for debilitating outages. Nickel-and-dime confirmed.</span></td>
+          <td class="kill-q">"What's your early termination fee? Have you clicked any popups in your POS recently?"</td>
         </tr>
         <tr>
           <td class="comp-name">Square</td>
-          <td><span class="weakness-tag">Not built for restaurants</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">No weekend support. Outgrow it fast. Rate hikes.</span></td>
-          <td class="kill-q">매출 늘면 나중에 다시 POS 바꿔야 할 것 같지 않으세요?<span class="kill-ko">"As your business grows, do you think you'll need to switch POS again?"</span></td>
+          <td><span class="weakness-tag">2025 nationwide outage, no compensation</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">No weekend support. Rate hikes without notice. Not built for restaurants.</span></td>
+          <td class="kill-q">토요일 밤 POS 다운되면 지원팀에 전화할 수 있어요?<span class="kill-ko">"If your POS crashes Saturday night — can you call support?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">Clover</td>
-          <td><span class="weakness-tag">Fee stacking, bank-owned</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Not built for restaurants. Reseller support.</span></td>
-          <td class="kill-q">지금 월에 얼마 내고 계세요 소프트웨어 비용으로?<span class="kill-ko">"How much are you paying monthly in total — including all add-ons?"</span></td>
+          <td><span class="weakness-tag">Fee stacking, $12K exit confirmed, bank-owned</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">48-month hardware leases. 2024 TCPA lawsuit settled.</span></td>
+          <td class="kill-q">지금 월에 얼마 내고 계세요 소프트웨어 비용으로?<span class="kill-ko">"How much are you paying monthly — all software and apps combined?"</span></td>
         </tr>
         <tr>
           <td class="comp-name">Lightspeed</td>
-          <td><span class="weakness-tag">Retail-first, not restaurant-first</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">No native payroll, weaker offline</span></td>
-          <td class="kill-q">"Did you know Lightspeed started as a retail system for clothing stores — not restaurants?"</td>
+          <td><span class="weakness-tag">$910/mo processor fee + retail-first roots</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Processor lock-in fee introduced Feb 2025. Started as clothing store POS.</span></td>
+          <td class="kill-q">"Are you using their payment processor? Do you know what you're paying if you use your own?"</td>
         </tr>
         <tr>
           <td class="comp-name">SkyTab</td>
-          <td><span class="weakness-tag">Payments company, not restaurant</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">POS is an afterthought to Shift4's payment business</span></td>
-          <td class="kill-q">"Did you know Shift4's main business is processing hotel and stadium payments — not restaurants?"</td>
+          <td><span class="weakness-tag">Liquidated damages, 2025 rate hikes</span><br><span style="font-size:11px;color:#555;margin-top:4px;display:block;">Hotel/stadium payment company. $37,500 exit fee example. $2,235 overcharge confirmed.</span></td>
+          <td class="kill-q">"Have you read the liquidated damages clause? Do you know what you'd owe to leave?"</td>
         </tr>
       </tbody>
     </table>
@@ -1335,8 +1524,7 @@
   function filterCards(section) {
     const q = document.getElementById('search-' + section).value.toLowerCase();
     document.querySelectorAll('#grid-' + section + ' .comp-card').forEach(card => {
-      const text = card.innerText.toLowerCase();
-      card.style.display = text.includes(q) ? '' : 'none';
+      card.style.display = card.innerText.toLowerCase().includes(q) ? '' : 'none';
     });
   }
 
@@ -1344,11 +1532,7 @@
     document.querySelectorAll('#panel-' + section + ' .filter-pill').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.querySelectorAll('#grid-' + section + ' .comp-card').forEach(card => {
-      if (tag === 'all') {
-        card.style.display = '';
-      } else {
-        card.style.display = (card.dataset.tags || '').includes(tag) ? '' : 'none';
-      }
+      card.style.display = (tag === 'all' || (card.dataset.tags || '').includes(tag)) ? '' : 'none';
     });
   }
 </script>
